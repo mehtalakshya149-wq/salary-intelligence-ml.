@@ -1,0 +1,17 @@
+[
+  "job_title",
+  "experience_level",
+  "employment_type",
+  "company_location",
+  "company_size",
+  "skills",
+  "remote_ratio",
+  "work_year",
+  "skills_count",
+  "experience_bin",
+  "role_cluster",
+  "is_remote",
+  "company_tier",
+  "exp_x_remote",
+  "tier_x_exp"
+]

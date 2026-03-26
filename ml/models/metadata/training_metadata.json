@@ -1,0 +1,37 @@
+{
+  "n_train_samples": 240,
+  "n_test_samples": 60,
+  "n_features": 15,
+  "feature_names": [
+    "job_title",
+    "experience_level",
+    "employment_type",
+    "company_location",
+    "company_size",
+    "skills",
+    "remote_ratio",
+    "work_year",
+    "skills_count",
+    "experience_bin",
+    "role_cluster",
+    "is_remote",
+    "company_tier",
+    "exp_x_remote",
+    "tier_x_exp"
+  ],
+  "cross_validation": {
+    "cv_r2_mean": 0.7273,
+    "cv_r2_std": 0.0397,
+    "cv_r2_scores": [
+      0.6889,
+      0.678,
+      0.7366,
+      0.7464,
+      0.7866
+    ]
+  },
+  "ensemble_weights": {
+    "random_forest": 0.6,
+    "gradient_boosting": 0.4
+  }
+}

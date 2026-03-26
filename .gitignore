@@ -1,0 +1,33 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Logs
+*.log
+
+# IDE / Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS Data
+.DS_Store
+Thumbs.db
+
+# Project-Specific Data & Models (Best practice to avoid committing large datasets/binaries)
+# ml/data/raw/*.csv
+# ml/data/processed/*.csv
+# ml/models/trained/*.joblib
+# ml/models/metadata/shap/*.png

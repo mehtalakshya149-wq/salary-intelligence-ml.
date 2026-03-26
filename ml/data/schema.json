@@ -1,0 +1,13 @@
+{
+  "columns": {
+    "job_title": {"type": "string", "required": true},
+    "experience_level": {"type": "string", "required": true, "values": ["EN", "MI", "SE", "EX"]},
+    "employment_type": {"type": "string", "required": true, "values": ["FT", "PT", "CT", "FL"]},
+    "company_location": {"type": "string", "required": true},
+    "company_size": {"type": "string", "required": true, "values": ["S", "M", "L"]},
+    "remote_ratio": {"type": "integer", "required": true, "min": 0, "max": 100},
+    "skills": {"type": "string", "required": false},
+    "work_year": {"type": "integer", "required": true, "min": 2020, "max": 2026},
+    "salary_in_usd": {"type": "float", "required": true, "min": 1}
+  }
+}

@@ -1,0 +1,301 @@
+job_title,experience_level,employment_type,company_location,company_size,remote_ratio,skills,work_year,salary_in_usd
+Head of Data,MI,FL,BR,M,0,"Python, AWS, Docker, SQL",2022,99916.26
+Data Analyst,EN,FT,ES,S,100,"Kubernetes, SQL, Spark, Python",2025,58151.3
+Research Scientist,EX,FT,ES,M,0,"Tableau, Docker, PyTorch, Kubernetes, SQL",2023,253345.54
+Data Scientist,EN,PT,GB,M,100,"Spark, R, Tableau, TensorFlow, Python",2025,66021.92
+Data Architect,EN,FT,US,S,0,"TensorFlow, Tableau, Spark, AWS",2022,54238.03
+MLOps Engineer,MI,FT,DE,M,0,"AWS, TensorFlow",2022,83857.72
+Head of Data,EN,FT,AU,M,50,"Docker, Python, PyTorch, SQL, Kubernetes, Spark",2023,66263.44
+Data Scientist,SE,FT,ES,S,50,"GCP, Kubernetes",2025,106307.64
+Research Scientist,EN,FT,FR,S,50,"GCP, Docker",2023,47087.89
+Research Scientist,EN,FT,US,S,0,"Excel, Docker, SQL",2023,78739.42
+Data Architect,SE,FT,US,S,50,"Python, GCP, Spark, PyTorch",2024,141177.0
+Analytics Engineer,EX,FT,NL,S,100,"Tableau, Excel, PyTorch",2025,182130.41
+Data Engineer,EX,FT,NL,M,100,"PyTorch, Tableau, SQL, AWS, Docker",2022,206516.16
+Head of Data,EN,FT,FR,M,100,"Spark, SQL",2023,52799.54
+Head of Data,SE,FT,FR,S,100,"R, Kubernetes, Tableau, Docker",2024,101114.96
+Data Engineer,MI,FT,FR,M,0,"Spark, SQL",2024,89921.22
+Data Engineer,SE,CT,ES,L,0,"TensorFlow, Spark, PyTorch",2021,137535.04
+Research Scientist,EX,CT,ES,S,100,"PyTorch, TensorFlow",2023,135148.19
+ML Engineer,SE,FT,CA,S,50,"Spark, Tableau, SQL, R, Docker",2022,105533.84
+MLOps Engineer,SE,FT,GB,M,50,"GCP, R, Tableau, TensorFlow",2020,109857.03
+Data Scientist,EX,FT,FR,M,100,"Tableau, Docker",2024,183220.7
+ML Engineer,MI,FL,IN,M,0,"Excel, GCP, Docker, R, Kubernetes",2024,82313.26
+ML Engineer,SE,CT,IN,M,100,"AWS, Spark",2021,147750.58
+Business Analyst,SE,FT,GB,S,100,"Excel, Spark, PyTorch",2020,117013.15
+Data Architect,EX,FT,IN,L,50,"PyTorch, Spark",2024,178276.81
+Head of Data,SE,PT,NL,M,50,"SQL, AWS",2023,135663.89
+Analytics Engineer,EX,FL,DE,M,0,"GCP, R, SQL, Spark",2024,191728.34
+Analytics Engineer,SE,FT,GB,L,100,"PyTorch, Kubernetes, TensorFlow, Tableau, R",2021,144219.3
+Data Engineer,MI,FT,US,L,0,"GCP, Python, AWS, SQL, Docker, Kubernetes",2020,126785.02
+Analytics Engineer,MI,FT,BR,S,100,"AWS, R, TensorFlow, SQL",2020,66735.97
+BI Analyst,EN,CT,IN,M,100,"Excel, TensorFlow, SQL",2020,56757.05
+Data Analyst,SE,FT,CA,M,50,"SQL, AWS, Kubernetes, Tableau, Python",2021,120630.57
+Research Scientist,SE,FT,DE,L,100,"Tableau, TensorFlow",2024,124704.68
+Analytics Engineer,SE,FT,US,M,50,"SQL, TensorFlow, GCP, Kubernetes, R, Tableau",2020,196456.53
+Head of Data,EX,PT,US,S,0,"Kubernetes, R, Spark, PyTorch",2020,212843.82
+Business Analyst,SE,FL,NL,M,50,"Python, Kubernetes, Docker, PyTorch, GCP, Excel",2024,154199.7
+Business Analyst,EN,FT,NL,M,100,"Excel, Spark, Kubernetes",2023,47194.5
+MLOps Engineer,SE,FT,NL,M,50,"Spark, Python, SQL, Tableau, PyTorch",2022,148812.28
+BI Analyst,MI,PT,GB,M,0,"TensorFlow, AWS",2024,90248.81
+ML Engineer,EX,CT,US,M,100,"Python, Excel, R, Tableau",2020,296840.65
+MLOps Engineer,SE,CT,GB,M,50,"TensorFlow, R, GCP, PyTorch, SQL, Spark",2020,124543.37
+Research Scientist,SE,FT,CA,M,50,"Tableau, Python, AWS, Excel, GCP",2020,97073.09
+Data Analyst,SE,FT,FR,S,50,"Python, SQL, Kubernetes, Spark",2023,115674.76
+Data Scientist,EN,FL,BR,M,100,"Docker, AWS, Python, Tableau",2021,57161.58
+Analytics Engineer,SE,FT,FR,M,0,"Excel, Kubernetes, Docker, TensorFlow, AWS, PyTorch",2023,120911.74
+BI Analyst,EN,FT,BR,M,100,"Spark, AWS, Kubernetes, Docker, TensorFlow, Tableau",2020,59558.08
+Data Architect,SE,FT,BR,L,100,"GCP, AWS, Kubernetes, Python",2023,179602.27
+Data Architect,SE,CT,FR,M,50,"Kubernetes, Tableau",2020,123634.02
+Data Scientist,SE,FT,CA,L,100,"AWS, Tableau, Excel, SQL",2023,165997.54
+Business Analyst,EN,FT,CA,M,100,"AWS, Spark, Python, PyTorch, Docker, Tableau",2024,60062.28
+NLP Engineer,EX,FT,FR,M,50,"PyTorch, Docker, AWS, Spark",2025,176259.63
+NLP Engineer,MI,FT,BR,L,100,"SQL, Docker, Excel, Tableau, R, GCP",2020,118671.73
+ML Engineer,SE,FT,NL,S,50,"TensorFlow, PyTorch",2023,107057.82
+Research Scientist,MI,FT,CA,M,100,"R, Docker, GCP, Excel, TensorFlow, AWS",2020,73151.34
+Research Scientist,EX,FT,BR,M,50,"AWS, TensorFlow, Docker, SQL",2024,195353.76
+Data Scientist,MI,FT,FR,L,0,"Spark, PyTorch, AWS, Tableau",2024,119075.37
+Data Analyst,SE,FT,AU,M,0,"Docker, Excel",2025,173758.74
+Data Engineer,EX,FT,AU,L,0,"Spark, AWS, GCP, Tableau, Kubernetes, PyTorch",2020,292665.42
+Data Scientist,MI,FT,CA,M,50,"Tableau, Kubernetes",2025,84797.12
+Data Analyst,MI,FT,NL,M,100,"Spark, GCP, Python, Excel",2020,92823.32
+Analytics Engineer,MI,FT,IN,M,100,"AWS, GCP, Kubernetes",2024,101953.97
+ML Engineer,MI,FT,GB,S,100,"Docker, SQL, Spark, AWS, Python, Excel",2022,78203.36
+NLP Engineer,EX,FT,BR,L,100,"GCP, SQL, PyTorch",2020,216206.74
+Business Analyst,EN,FT,NL,M,50,"Kubernetes, AWS, Python, Docker",2020,70169.89
+Data Architect,EX,FT,ES,M,50,"R, TensorFlow, Excel, SQL",2023,199795.3
+Data Architect,SE,FT,AU,S,100,"Python, Excel, PyTorch, Docker",2020,154591.63
+MLOps Engineer,EN,FT,DE,M,50,"R, PyTorch, SQL, Spark, Excel, Python",2022,55958.96
+NLP Engineer,EX,FT,DE,L,0,"Tableau, Docker, Kubernetes, Excel, GCP, Python",2024,263429.91
+NLP Engineer,SE,FT,NL,L,50,"Docker, Kubernetes, Tableau, PyTorch, AWS, TensorFlow",2023,157753.75
+Data Analyst,EN,FT,CA,S,100,"TensorFlow, Docker, Python, SQL, PyTorch, R",2024,47616.46
+Data Analyst,EN,FT,FR,M,50,"Spark, TensorFlow, AWS, GCP",2021,55637.2
+BI Analyst,EX,FT,ES,M,50,"AWS, Kubernetes, Excel, SQL",2020,155803.72
+Data Scientist,MI,FT,NL,S,100,"AWS, Kubernetes",2021,71150.43
+Business Analyst,EN,CT,DE,L,50,"SQL, AWS, Tableau, PyTorch",2021,64948.55
+Data Engineer,MI,CT,CA,M,100,"TensorFlow, Python, Spark, Tableau",2024,80566.59
+Head of Data,MI,FT,US,M,0,"Docker, PyTorch, Excel, TensorFlow, Python",2021,121933.61
+Data Architect,SE,CT,FR,L,100,"AWS, PyTorch, R, TensorFlow, GCP",2021,163890.11
+Data Analyst,EN,PT,DE,M,0,"Excel, Tableau, SQL",2021,51529.68
+ML Engineer,SE,FT,US,L,0,"Kubernetes, SQL, AWS, Docker, GCP, Excel",2024,188723.89
+Head of Data,EN,FT,GB,L,50,"Spark, Docker",2023,65922.1
+Data Scientist,EX,FT,NL,S,50,"Kubernetes, R, SQL, AWS, PyTorch",2025,167245.37
+Head of Data,EN,FT,GB,M,100,"SQL, PyTorch, Tableau, TensorFlow, AWS, Kubernetes",2022,57466.85
+Data Engineer,EX,FT,FR,M,100,"TensorFlow, R, Kubernetes",2021,214632.86
+Business Analyst,EN,FT,BR,M,100,"R, Python",2025,50967.15
+Data Architect,MI,FT,CA,M,100,"Tableau, R",2022,78201.82
+Analytics Engineer,MI,FT,GB,S,100,"TensorFlow, SQL",2024,71044.03
+Data Analyst,SE,FT,CA,M,100,"Spark, Tableau, PyTorch, AWS, Kubernetes",2025,161229.31
+Data Engineer,MI,FT,DE,M,50,"Docker, Tableau, Kubernetes, Spark, AWS, TensorFlow",2022,101733.13
+BI Analyst,EN,CT,NL,S,100,"Kubernetes, PyTorch",2025,41461.18
+Head of Data,SE,FT,AU,M,0,"Spark, AWS, SQL",2022,192541.57
+Analytics Engineer,EN,FT,IN,M,100,"R, GCP, AWS, Kubernetes, PyTorch",2023,49175.22
+Research Scientist,EX,FT,US,M,100,"Spark, TensorFlow, AWS, Tableau, R, Python",2023,278933.49
+Data Engineer,EN,FT,CA,M,0,"Kubernetes, TensorFlow, R, Excel, SQL, Docker",2021,55992.76
+Research Scientist,MI,PT,BR,L,0,"Spark, Kubernetes, TensorFlow, AWS, SQL",2020,102030.99
+Business Analyst,MI,CT,NL,L,100,"Python, PyTorch",2024,98151.8
+Business Analyst,MI,FT,AU,S,50,"Spark, Tableau, SQL",2023,102410.66
+Business Analyst,SE,FT,ES,L,50,"Excel, R, AWS",2024,167844.91
+Data Engineer,SE,PT,GB,M,50,"Excel, Spark, SQL, Python",2024,168060.14
+MLOps Engineer,EN,FT,IN,M,50,"R, Spark, AWS, Excel",2023,58630.34
+Data Architect,SE,FT,BR,L,0,"Docker, GCP, Kubernetes, R, SQL",2023,132127.9
+Data Engineer,SE,FT,NL,L,100,"Docker, Spark",2021,191250.3
+Business Analyst,SE,FT,AU,M,0,"GCP, Excel, Kubernetes, TensorFlow, R",2022,152204.23
+Data Architect,MI,FT,NL,M,100,"GCP, Excel, TensorFlow, Tableau, Docker, Python",2022,95343.81
+Business Analyst,SE,FT,IN,L,0,"R, GCP, Kubernetes, Excel",2020,178713.44
+Head of Data,SE,FT,BR,M,50,"GCP, PyTorch, Kubernetes",2024,119001.82
+Data Analyst,EN,FL,NL,S,50,"Excel, Tableau",2025,46437.14
+Data Engineer,EX,FT,NL,M,0,"R, Docker, Kubernetes",2025,183369.62
+Data Scientist,MI,FT,NL,M,50,"PyTorch, Kubernetes, Tableau",2023,80840.2
+NLP Engineer,EN,PT,DE,M,50,"Python, Tableau, Kubernetes, Spark",2025,55333.54
+Data Analyst,SE,FT,US,L,50,"Kubernetes, Excel, AWS, SQL, GCP, PyTorch",2025,198326.34
+NLP Engineer,EN,FL,CA,M,0,"Spark, Python, TensorFlow, Excel, GCP, PyTorch",2025,55981.21
+Data Analyst,MI,FT,IN,S,50,"R, SQL, Docker, Spark, Kubernetes",2022,69327.46
+Research Scientist,SE,FT,IN,L,50,"Python, TensorFlow, R, SQL",2024,145325.87
+Head of Data,MI,PT,ES,S,100,"GCP, Spark, R, Python, TensorFlow, AWS",2024,66335.89
+NLP Engineer,SE,FT,AU,S,0,"Docker, Kubernetes, Spark, Tableau, AWS",2021,148674.01
+Data Architect,SE,FT,US,L,0,"TensorFlow, Docker, PyTorch, Kubernetes, Python, Spark",2023,177309.04
+ML Engineer,SE,FT,US,M,0,"Docker, Spark, SQL, AWS",2020,149106.99
+NLP Engineer,SE,FT,ES,S,100,"TensorFlow, PyTorch, Spark, Kubernetes, R",2021,97536.4
+Research Scientist,SE,FT,GB,M,0,"Tableau, AWS, R",2022,162076.83
+BI Analyst,MI,CT,DE,L,100,"R, TensorFlow, Kubernetes",2022,89049.83
+Research Scientist,SE,FT,AU,M,0,"Tableau, Python, AWS, Excel",2025,194112.38
+MLOps Engineer,SE,FT,BR,M,0,"AWS, SQL, Spark, Excel, R",2024,130331.84
+ML Engineer,SE,FT,IN,M,100,"R, Tableau, Python",2022,112751.35
+MLOps Engineer,SE,FT,DE,L,50,"Excel, Python, Tableau, AWS, Docker",2024,129652.83
+Data Scientist,SE,FT,NL,M,50,"Excel, Python, Docker, Kubernetes, SQL, Spark",2023,142142.43
+Head of Data,SE,FT,BR,M,100,"PyTorch, Kubernetes, Spark, Tableau, SQL, GCP",2025,127471.58
+Research Scientist,SE,FL,FR,M,50,"Kubernetes, R, GCP, Excel, TensorFlow",2023,137983.11
+Data Analyst,MI,FT,DE,L,0,"GCP, Excel, Spark",2025,87716.97
+Head of Data,EN,CT,DE,M,100,"Tableau, R",2025,51665.58
+Business Analyst,SE,FL,FR,M,100,"Spark, Excel, AWS, PyTorch, Python",2025,122955.7
+ML Engineer,MI,CT,GB,M,50,"Python, Spark, TensorFlow",2024,79315.73
+MLOps Engineer,EX,FT,NL,S,0,"TensorFlow, R, SQL, Tableau, PyTorch",2024,140879.02
+Research Scientist,SE,PT,US,M,0,"AWS, R, TensorFlow",2025,204892.81
+Head of Data,MI,PT,FR,L,50,"Python, Excel",2022,85616.81
+ML Engineer,MI,CT,BR,L,100,"Kubernetes, PyTorch",2021,118765.62
+Data Engineer,EN,FT,BR,M,100,"Python, R, TensorFlow, Excel, SQL, Spark",2023,53812.77
+Data Architect,MI,CT,DE,L,0,"Tableau, Spark",2025,101739.58
+NLP Engineer,EX,FT,AU,S,100,"TensorFlow, SQL, Tableau, Docker, Python",2021,206097.21
+Data Engineer,SE,FT,IN,L,50,"Kubernetes, AWS, PyTorch, Tableau, Docker",2020,111433.92
+Research Scientist,SE,CT,ES,S,0,"Excel, Kubernetes",2021,102440.28
+MLOps Engineer,SE,PT,DE,S,100,"SQL, PyTorch, Excel",2021,112902.7
+Business Analyst,SE,FT,IN,S,50,"Kubernetes, Spark, Tableau, GCP, SQL",2025,102621.22
+ML Engineer,EN,FT,GB,M,50,"AWS, Docker, Kubernetes, PyTorch, SQL, Spark",2023,52127.53
+NLP Engineer,SE,FT,CA,L,100,"Kubernetes, SQL, GCP, Python",2020,171113.8
+Data Scientist,EN,FT,NL,L,0,"Excel, Spark, R, Kubernetes",2020,62457.23
+Data Scientist,MI,FT,GB,M,100,"Spark, GCP, SQL, AWS, Excel, TensorFlow",2023,87441.92
+Head of Data,EN,FT,BR,M,50,"SQL, AWS, Docker, Python",2020,55497.86
+Head of Data,MI,PT,DE,M,100,"TensorFlow, R, PyTorch, SQL",2021,72092.95
+Data Scientist,SE,CT,DE,M,100,"Docker, SQL, Spark, AWS, Excel, TensorFlow",2024,141379.95
+NLP Engineer,MI,PT,US,S,50,"SQL, AWS",2025,97179.3
+Data Architect,EN,FT,DE,M,100,"SQL, Tableau",2024,62516.89
+MLOps Engineer,SE,PT,US,M,100,"GCP, Kubernetes, Docker, Excel, Spark",2021,186386.36
+ML Engineer,MI,FT,GB,M,100,"PyTorch, GCP, Excel, Docker",2021,91498.16
+Business Analyst,SE,FT,US,M,50,"R, TensorFlow",2022,203205.04
+Data Scientist,MI,FT,AU,M,100,"PyTorch, Spark, Tableau, AWS, Docker",2025,138101.96
+Data Scientist,SE,FT,IN,M,0,"GCP, Python",2020,142161.24
+Research Scientist,SE,FT,GB,L,50,"Docker, Excel",2025,117794.69
+Business Analyst,SE,FT,ES,L,0,"Kubernetes, Tableau, Docker, Excel, Python",2021,123469.54
+Head of Data,EX,FT,FR,M,0,"Kubernetes, Docker, Python, TensorFlow, Tableau, Excel",2020,190695.3
+BI Analyst,MI,PT,CA,M,50,"Spark, AWS, GCP, Excel",2024,71514.59
+Data Scientist,SE,FT,IN,S,100,"GCP, AWS, Python, Docker, TensorFlow",2024,110988.17
+Data Architect,SE,FT,ES,L,0,"Docker, PyTorch, GCP",2022,154525.38
+Data Architect,MI,FT,NL,M,100,"Excel, Docker, GCP, Spark",2024,95606.99
+MLOps Engineer,EN,FT,FR,M,100,"AWS, TensorFlow, Tableau, PyTorch, Kubernetes, Python",2021,37373.11
+Data Analyst,SE,FT,AU,S,50,"Docker, Spark",2024,143192.83
+Data Engineer,MI,FT,DE,M,100,"AWS, Tableau, PyTorch, TensorFlow, Kubernetes, Docker",2024,79805.12
+Research Scientist,EN,FT,GB,M,100,"SQL, R, TensorFlow, Excel",2025,67179.36
+BI Analyst,EN,FT,ES,M,100,"Tableau, Docker, R, Python, Kubernetes",2023,48679.87
+BI Analyst,MI,FT,GB,S,100,"Kubernetes, R",2022,77589.54
+ML Engineer,EN,FT,NL,S,100,"PyTorch, Python",2020,54398.44
+NLP Engineer,EX,FT,DE,S,100,"Kubernetes, TensorFlow, Excel, R, Spark, PyTorch",2021,171379.09
+Data Analyst,EN,PT,IN,S,50,"GCP, Kubernetes",2023,47856.94
+Research Scientist,EX,FT,NL,L,100,"Python, Spark",2025,233232.5
+ML Engineer,EN,CT,DE,M,100,"Docker, R, AWS",2025,55394.39
+Data Engineer,MI,FT,US,L,0,"PyTorch, R, SQL, Excel",2024,137335.46
+Data Scientist,EN,FT,IN,M,100,"Spark, SQL",2023,61851.27
+Data Scientist,SE,FT,FR,S,100,"Spark, Kubernetes",2024,136496.28
+Data Analyst,MI,FT,ES,L,100,"SQL, Spark, Python, Kubernetes, Excel, AWS",2022,106645.68
+MLOps Engineer,MI,FT,NL,L,100,"Spark, Kubernetes, GCP",2021,94028.88
+Head of Data,SE,FT,FR,L,100,"Kubernetes, Tableau, TensorFlow",2025,180562.93
+Data Engineer,EX,FT,DE,M,50,"Python, AWS, TensorFlow",2022,202201.22
+MLOps Engineer,SE,FT,GB,L,50,"Kubernetes, GCP, Docker, Spark, PyTorch",2021,163123.42
+MLOps Engineer,SE,FT,ES,L,0,"Tableau, TensorFlow, Python, Kubernetes, PyTorch",2021,187169.01
+Business Analyst,EX,FT,AU,L,100,"SQL, GCP, Tableau, Excel, Kubernetes, Spark",2020,289411.38
+NLP Engineer,MI,FT,CA,M,50,"Spark, GCP, Kubernetes, PyTorch, R",2021,89502.5
+Data Engineer,EX,FT,BR,M,50,"Python, Spark, GCP, Excel",2021,170279.13
+BI Analyst,MI,FT,NL,M,50,"SQL, AWS, GCP, Kubernetes, Spark",2025,94174.24
+Data Architect,SE,FT,NL,M,0,"Spark, R, SQL, AWS, GCP, TensorFlow",2023,141615.51
+NLP Engineer,MI,FT,CA,S,0,"GCP, Docker, SQL, Kubernetes, Tableau",2023,64846.34
+NLP Engineer,MI,CT,FR,M,0,"Docker, Tableau, AWS, TensorFlow, Excel, SQL",2025,75580.04
+Data Architect,MI,FT,FR,M,100,"SQL, Kubernetes",2023,76336.29
+Data Scientist,MI,CT,AU,S,100,"Excel, R",2020,96479.12
+Business Analyst,SE,FT,AU,M,50,"AWS, Spark, PyTorch, Kubernetes, Tableau",2021,138217.52
+Data Analyst,SE,FT,US,L,0,"PyTorch, AWS, Python, SQL, Excel, Kubernetes",2020,186023.36
+Data Scientist,SE,FT,FR,M,100,"Docker, Spark, GCP, PyTorch",2025,119638.89
+Research Scientist,EX,FT,IN,S,100,"GCP, AWS, Excel",2025,142049.51
+MLOps Engineer,SE,FT,AU,M,100,"R, TensorFlow, Excel, AWS, PyTorch, Spark",2023,209680.56
+Business Analyst,SE,FT,US,M,0,"PyTorch, Python, TensorFlow",2021,156561.04
+Data Analyst,EN,FL,NL,S,50,"AWS, Tableau, TensorFlow, Python",2023,37914.37
+Head of Data,MI,FT,CA,L,0,"AWS, GCP, Python, Docker, SQL, TensorFlow",2021,108612.71
+Analytics Engineer,SE,FT,AU,M,50,"AWS, Excel, R",2020,183764.83
+Analytics Engineer,EX,FT,CA,M,100,"AWS, Tableau, R, Spark",2021,191771.58
+MLOps Engineer,EX,FT,US,S,0,"GCP, Docker, TensorFlow, PyTorch",2021,174667.83
+Data Engineer,SE,FT,BR,S,50,"Excel, R, PyTorch, SQL, GCP, Kubernetes",2020,113241.83
+Business Analyst,SE,FT,ES,S,100,"TensorFlow, Kubernetes, Python, GCP, R",2021,116378.48
+Data Architect,MI,CT,US,L,50,"R, TensorFlow",2021,97801.9
+Analytics Engineer,SE,PT,DE,S,0,"Spark, R, Kubernetes, TensorFlow, SQL",2023,117778.2
+Head of Data,MI,FT,ES,M,0,"TensorFlow, GCP, Excel, SQL, PyTorch, Python",2020,82399.45
+MLOps Engineer,EX,FT,NL,S,0,"Kubernetes, R, Excel, Spark, Docker, SQL",2024,156053.84
+BI Analyst,SE,FT,GB,M,100,"PyTorch, SQL, TensorFlow, R",2025,143460.94
+Analytics Engineer,SE,FT,GB,M,50,"TensorFlow, R, Kubernetes",2020,130596.51
+NLP Engineer,SE,FT,NL,M,50,"GCP, R, SQL, Excel, PyTorch, AWS",2024,107401.97
+Data Analyst,MI,FT,NL,M,50,"Python, Spark, Kubernetes",2022,93653.99
+Business Analyst,SE,FT,US,S,50,"Python, TensorFlow, SQL, PyTorch, GCP",2024,104918.12
+Data Scientist,MI,FT,GB,M,50,"R, PyTorch, Kubernetes, AWS, Spark",2023,85855.03
+MLOps Engineer,EN,FT,AU,M,50,"Docker, GCP, Spark, Tableau, Excel, TensorFlow",2025,83601.74
+Research Scientist,MI,FT,FR,M,50,"PyTorch, Docker, Spark, R, TensorFlow, AWS",2020,96305.04
+Research Scientist,SE,FT,DE,M,50,"Docker, Python, R, GCP, Tableau",2024,139309.81
+BI Analyst,SE,PT,CA,M,50,"Docker, Python, GCP, Tableau, SQL, TensorFlow",2020,140463.56
+Data Analyst,SE,FT,BR,S,50,"SQL, Spark, Excel, Python",2025,106624.64
+ML Engineer,EX,PT,FR,M,50,"Kubernetes, PyTorch, AWS, Tableau",2024,150068.76
+Analytics Engineer,SE,FL,DE,M,100,"Kubernetes, PyTorch",2022,111478.4
+NLP Engineer,EX,FL,CA,L,50,"Docker, GCP",2025,247681.46
+Research Scientist,EN,FT,US,M,50,"AWS, Kubernetes, Docker",2023,80746.25
+Business Analyst,SE,FT,GB,M,0,"AWS, Docker, R",2023,143013.96
+Head of Data,EX,FT,IN,L,100,"Spark, Excel, Tableau, SQL",2020,274677.44
+Analytics Engineer,EN,FL,US,M,100,"Python, PyTorch, Spark, GCP",2024,86173.95
+Data Analyst,SE,FL,BR,S,0,"Spark, R, SQL, Docker, Excel, Tableau",2022,76854.23
+MLOps Engineer,EN,FT,BR,S,0,"AWS, Python, SQL, Tableau",2021,46297.84
+Analytics Engineer,SE,FT,BR,M,0,"Excel, Tableau, SQL",2020,117004.33
+Head of Data,MI,FT,FR,L,50,"SQL, R, Kubernetes",2022,118032.52
+Research Scientist,MI,FT,CA,L,100,"Kubernetes, Docker, SQL, Python",2024,103552.36
+Research Scientist,SE,FT,AU,M,0,"AWS, Docker, SQL, Tableau",2025,161686.06
+Data Architect,SE,FT,ES,L,100,"R, Excel",2024,167126.62
+Business Analyst,MI,FT,ES,L,50,"R, GCP",2024,95211.5
+Data Scientist,EN,FT,AU,M,0,"R, Tableau, SQL, GCP, Docker",2020,87395.01
+MLOps Engineer,SE,PT,NL,M,50,"AWS, Excel",2024,111958.04
+ML Engineer,SE,FT,AU,L,50,"SQL, PyTorch, Kubernetes, TensorFlow, Tableau, AWS",2025,208480.46
+Data Architect,MI,FT,AU,M,100,"Tableau, Docker, GCP, Python, Excel",2022,129826.29
+BI Analyst,MI,PT,DE,S,50,"PyTorch, Docker",2023,81252.73
+MLOps Engineer,SE,FT,NL,L,0,"Tableau, Python, Excel",2025,160899.9
+Data Scientist,SE,CT,GB,L,100,"Tableau, Docker",2020,135926.19
+ML Engineer,EN,FT,ES,M,50,"AWS, SQL",2025,48978.24
+NLP Engineer,SE,FT,DE,M,50,"TensorFlow, Spark",2023,132940.1
+Data Analyst,EX,PT,BR,S,100,"R, Python, Spark, SQL, TensorFlow",2023,157883.54
+Data Scientist,EN,FT,FR,S,100,"Docker, TensorFlow",2020,46614.29
+Analytics Engineer,MI,FT,US,L,50,"AWS, Kubernetes, Tableau, SQL",2024,155082.45
+MLOps Engineer,MI,FT,GB,L,50,"GCP, SQL, Spark, PyTorch, TensorFlow, Tableau",2025,80961.06
+ML Engineer,SE,PT,US,L,100,"Tableau, AWS, SQL, Python, Excel",2022,249399.04
+Data Architect,MI,FT,NL,M,100,"TensorFlow, Tableau, Python, PyTorch",2023,90974.5
+BI Analyst,SE,PT,AU,L,50,"PyTorch, R, Python, Tableau, Docker, Kubernetes",2021,190992.6
+Data Architect,EN,FT,US,M,50,"Tableau, AWS",2020,73241.67
+NLP Engineer,MI,FL,DE,L,0,"GCP, TensorFlow",2025,107748.01
+Analytics Engineer,EN,FT,NL,L,100,"Spark, Python, GCP",2025,66361.92
+Head of Data,EX,FT,US,S,100,"Docker, TensorFlow",2023,218086.93
+Head of Data,MI,FT,FR,M,0,"R, Docker, AWS, SQL, Spark",2022,84616.78
+Data Analyst,MI,FT,ES,M,100,"Python, AWS, Kubernetes, Docker, Spark, GCP",2024,107303.48
+ML Engineer,MI,FT,GB,S,0,"Tableau, PyTorch, R, Python",2024,75212.54
+NLP Engineer,SE,CT,NL,S,50,"R, Python, Kubernetes",2021,118525.27
+Data Analyst,SE,FT,IN,L,50,"Excel, Tableau, TensorFlow",2021,169510.87
+Data Scientist,SE,FT,US,L,100,"Python, Spark, Excel, GCP, R",2020,220809.34
+MLOps Engineer,SE,FT,ES,M,100,"R, PyTorch",2024,135591.77
+Data Architect,EN,FT,GB,L,50,"Tableau, PyTorch",2021,54388.67
+Data Scientist,SE,FT,IN,M,50,"R, SQL, Python, AWS, Tableau",2021,135016.19
+Data Scientist,SE,FT,FR,M,0,"SQL, Docker, Python, Kubernetes",2022,133155.71
+NLP Engineer,SE,CT,GB,M,100,"SQL, Docker, GCP, AWS",2022,132549.1
+Analytics Engineer,SE,PT,FR,M,100,"Excel, PyTorch",2022,104350.85
+Research Scientist,MI,FT,CA,M,50,"GCP, Spark",2022,80974.81
+BI Analyst,EN,PT,NL,M,50,"Docker, Python, PyTorch, Excel, Kubernetes, AWS",2024,61081.33
+BI Analyst,EN,FT,AU,S,100,"AWS, Kubernetes, PyTorch, Tableau",2022,58040.54
+NLP Engineer,SE,FT,BR,S,100,"SQL, Docker",2023,126692.75
+ML Engineer,EX,FT,US,M,50,"TensorFlow, GCP",2023,276948.67
+MLOps Engineer,SE,FL,CA,M,0,"Tableau, GCP, R, AWS",2020,125370.34
+Data Engineer,MI,FT,GB,M,50,"Excel, AWS, Docker, GCP, Tableau",2020,81349.36
+Research Scientist,EX,FT,BR,L,50,"Kubernetes, Spark, PyTorch, Python",2022,250028.97
+Analytics Engineer,MI,FT,CA,L,0,"PyTorch, Tableau",2024,101470.13
+Research Scientist,EN,CT,ES,L,100,"Kubernetes, Docker",2022,64998.55
+Analytics Engineer,MI,FT,ES,M,0,"PyTorch, Tableau",2023,71173.6
+Business Analyst,MI,FL,AU,M,0,"TensorFlow, Python",2020,129499.89
+BI Analyst,EN,FT,DE,S,50,"Docker, PyTorch, Python, Tableau, Spark, TensorFlow",2024,38656.3
+Head of Data,SE,FT,NL,M,100,"Tableau, AWS, Kubernetes",2020,129054.51
+NLP Engineer,EX,PT,NL,S,0,"Spark, Excel, PyTorch, GCP, AWS, Python",2025,157262.5
+Data Architect,MI,FT,US,S,100,"TensorFlow, R, SQL",2022,105967.52
+Research Scientist,EN,FT,GB,M,100,"SQL, GCP, Excel, R",2022,64958.51
+Data Architect,EN,PT,GB,L,0,"Docker, GCP, Kubernetes, Spark",2023,46475.78
+Business Analyst,SE,FT,DE,M,0,"SQL, AWS, Excel, TensorFlow, R, Spark",2023,147223.5
+NLP Engineer,MI,FT,GB,M,0,"Python, PyTorch, Kubernetes, TensorFlow",2020,97078.93
+Research Scientist,SE,FT,US,S,0,"PyTorch, AWS, TensorFlow, Spark, R",2024,129517.16
+Data Engineer,EN,FT,BR,S,50,"Excel, AWS, Docker, Kubernetes",2020,40826.26
+Research Scientist,EX,FT,DE,L,100,"Spark, Excel, GCP, PyTorch",2025,229003.98
+Data Analyst,SE,FT,NL,S,0,"Kubernetes, AWS, Spark",2021,109076.48
+Analytics Engineer,SE,CT,CA,L,100,"Kubernetes, AWS, Python, Spark",2020,175801.06
+Data Architect,MI,PT,CA,M,100,"Docker, Spark, Tableau, TensorFlow, SQL, Python",2023,109879.68
+Data Scientist,SE,FT,GB,S,50,"SQL, Excel, PyTorch, Kubernetes",2024,96605.88
+BI Analyst,SE,FT,DE,L,100,"AWS, Excel, Kubernetes, Docker",2025,146332.44
+BI Analyst,EN,CT,NL,S,100,"AWS, GCP, Python",2022,51580.43
+Data Architect,MI,CT,DE,L,50,"PyTorch, Kubernetes",2022,97027.98
+Data Scientist,EN,PT,IN,M,50,"Docker, Excel",2024,54721.55
+Data Analyst,MI,FT,GB,M,100,"Tableau, Docker, Excel, Python",2025,89894.07
+Data Analyst,SE,FL,NL,S,0,"R, Excel, Kubernetes, TensorFlow, AWS, PyTorch",2024,115109.03
