@@ -26,6 +26,7 @@ with tab1:
                 st.session_state.logged_in = True
                 st.session_state.user_role = user.role
                 st.session_state.username = user.username
+                st.session_state.user_id = user.id
                 st.session_state.last_active = __import__('time').time()
                 st.success(f"Welcome back, {user.username}!")
                 st.rerun()

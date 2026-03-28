@@ -34,7 +34,7 @@ with colB:
                 }
                 res = run_prediction(inputs, "ml/config.yaml")
 
-                # Store prediction in Postgres
+                # Store prediction in DB
                 try:
                     db = SessionLocal()
                     from api.models import User
@@ -44,7 +44,8 @@ with colB:
                             id=str(uuid.uuid4()),
                             user_id=u.id, job_title=job_title, experience_level=exp,
                             company_location=loc, company_size=size, remote_ratio=rem,
-                            skills=skills, predicted_average=res['salary']['average'], confidence_score=res['confidence']['score']
+                            skills=skills, predicted_average=res['salary']['average'],
+                            confidence_score=float(res['confidence']['score'])
                         )
                         db.add(sp)
                         db.commit()
@@ -52,14 +53,22 @@ with colB:
                 except Exception as db_e:
                     st.toast(f"Silent logger warning: {db_e}")
 
-                # Display Visuals
+                # Display salary band metrics
                 c1, c2, c3 = st.columns(3)
                 c1.metric("Low Estimate (P10)", f"${res['salary']['min']:,.0f}")
                 c2.metric("Median Average", f"${res['salary']['average']:,.0f}")
                 c3.metric("High Estimate (P90)", f"${res['salary']['max']:,.0f}")
 
-                st.info(f"**Confidence Score:** {res['confidence']['score']}% ({res['confidence']['label']})")
-                st.success(f"**Inflation Adjusted Projection:** ${res['inflation_adjusted']['adjusted']:,.0f}")
-                
+                # Confidence score as % (explicit cast to avoid numpy float repr)
+                score = float(res['confidence']['score'])
+                label = res['confidence']['label']
+
+                conf_col1, conf_col2 = st.columns([1, 2])
+                with conf_col1:
+                    st.metric("Confidence Score", f"{score:.1f}%", delta=label)
+                with conf_col2:
+                    adj = res['inflation_adjusted']['adjusted']
+                    st.success(f"**Inflation Adjusted Projection (2024):** ${adj:,.0f}")
+
             except Exception as e:
                 st.error(f"Prediction failed: Ensure models are thoroughly trained: {e}")

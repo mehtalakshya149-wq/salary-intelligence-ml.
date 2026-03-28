@@ -29,7 +29,30 @@ async def add_process_time_header(request: Request, call_next):
     return response
 
 app.include_router(auth_router, tags=["auth"])
-
+from api.dashboard import router as dashboard_router
+app.include_router(dashboard_router, prefix="/api/v1/dashboard", tags=["dashboard"])
+from api.chat import router as chat_router
+app.include_router(chat_router, prefix="/api/v1/chat", tags=["chat"])
+from api.cost_of_living import router as cost_of_living_router
+app.include_router(cost_of_living_router, prefix="/api/v1/cost-of-living", tags=["cost-of-living"])
+from api.report import router as report_router
+app.include_router(report_router, prefix="/api/v1/report", tags=["report"])
+from api.model_comparison import router as model_comparison_router
+app.include_router(model_comparison_router, prefix="/api/v1/models", tags=["models"])
+from api.notifications import router as notifications_router
+app.include_router(notifications_router, prefix="/api/v1/notifications", tags=["notifications"])
+from api.admin import router as admin_router
+app.include_router(admin_router, prefix="/api/v1/admin", tags=["admin"])
+from api.bias_audit import router as bias_audit_router
+app.include_router(bias_audit_router, prefix="/api/v1/bias-report", tags=["bias-audit"])
+from api.skill_gap import router as skill_gap_router
+app.include_router(skill_gap_router, prefix="/api/v1/skill-gap-analysis", tags=["skill-gap"])
+from api.story_ai import router as story_ai_router
+app.include_router(story_ai_router, prefix="/api/v1/explain-story", tags=["explain-story"])
+from api.interview_prep import router as interview_prep_router
+app.include_router(interview_prep_router, prefix="/api/v1/interview-questions", tags=["interview-prep"])
+from api.resume_analyzer import router as resume_analyzer_router
+app.include_router(resume_analyzer_router, prefix="/api/v1/analyze-resume", tags=["resume-analyzer"])
 @app.get("/")
 async def root():
     return {"message": "Authentication Service is running. Visit /docs for OpenAPI documentation."}

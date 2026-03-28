@@ -57,6 +57,20 @@ html, body, [class*="css"] {
     color: var(--text-primary) !important;
 }
 
+/* ── Restore Material Icons ── */
+.material-symbols-rounded,
+[class*="material-symbols"],
+.stIcon,
+[data-testid="stIconMaterial"],
+[data-testid="stChatMessageAvatar"],
+[data-testid="stChatMessageAvatar"] *,
+summary [data-testid="stIconMaterial"],
+summary svg,
+summary span[class*="css-"],
+.streamlit-expanderHeader svg {
+    font-family: "Material Symbols Rounded", "Material Icons", sans-serif !important;
+}
+
 /* ── App Background ── */
 .stApp {
     background: var(--surface-2) !important;
@@ -71,6 +85,11 @@ html, body, [class*="css"] {
 [data-testid="stSidebar"] * {
     color: rgba(255,255,255,0.88) !important;
     font-family: var(--font-body) !important;
+}
+[data-testid="stSidebar"] .material-symbols-rounded,
+[data-testid="stSidebar"] [class*="material-symbols"],
+[data-testid="stSidebar"] .stIcon {
+    font-family: "Material Symbols Rounded", "Material Icons" !important;
 }
 [data-testid="stSidebarNav"] a {
     border-radius: var(--radius-md) !important;
@@ -680,12 +699,29 @@ career_page  = st.Page("ui/6_career.py",  title="Career Simulator",     icon="�
 explain_page = st.Page("ui/7_explain.py", title="AI Explainability",    icon="🧠")
 admin_page   = st.Page("ui/8_admin.py",   title="Admin Dashboard",      icon="⚙️")
 ethics_page  = st.Page("ui/9_ethics.py",  title="Ethical AI & Limits",  icon="🛡️")
+dashboard_page = st.Page("ui/10_dashboard.py", title="Personalized Dashboard", icon="📈")
+chatbot_page   = st.Page("ui/11_chatbot.py", title="AI Career Assistant", icon="💬")
+simulator_page = st.Page("ui/12_simulator.py", title="What-If Simulator", icon="🎛️")
+col_page       = st.Page("ui/13_cost_of_living.py", title="Cost of Living", icon="🌍")
+report_page    = st.Page("ui/14_report.py", title="Download Report", icon="📄")
+model_compare_page = st.Page("ui/15_model_compare.py", title="Model Evaluation", icon="⚖️")
+notifications_page = st.Page("ui/16_notifications.py", title="Notifications", icon="🔔")
+skill_gap_page     = st.Page("ui/17_skill_gap.py",     title="Skill Gap Analysis", icon="🎯")
+heatmap_page       = st.Page("ui/18_heatmap.py",       title="Global Salary Heatmap", icon="🌍")
+roadmap_page       = st.Page("ui/19_roadmap.py",       title="Learning Roadmap", icon="🛣️")
+interview_page     = st.Page("ui/20_interview_prep.py", title="Interview Preparation", icon="👔")
+resume_page        = st.Page("ui/21_resume_analyzer.py", title="Resume Analyzer", icon="📄")
 
 if not st.session_state.logged_in:
     pg = st.navigation([login_page])
 else:
-    pages = [home_page, predict_page, compare_page, skills_page,
-             career_page, explain_page, ethics_page]
+    pages = [
+        home_page, dashboard_page, predict_page, compare_page, 
+        skills_page, skill_gap_page, roadmap_page, interview_page, resume_page,
+        career_page, explain_page, ethics_page, heatmap_page,
+        chatbot_page, simulator_page, col_page, report_page, 
+        model_compare_page, notifications_page
+    ]
     if st.session_state.user_role == "admin":
         pages.append(admin_page)
     pg = st.navigation(pages)
