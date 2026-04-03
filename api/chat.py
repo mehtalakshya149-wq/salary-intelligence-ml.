@@ -1,7 +1,8 @@
+import google.generativeai as genai
 from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import List, Optional
-import re
+import os
 
 router = APIRouter()
 
@@ -12,53 +13,91 @@ class ChatMessage(BaseModel):
 class ChatRequest(BaseModel):
     message: str
     history: Optional[List[ChatMessage]] = []
+    api_key: Optional[str] = None
 
 class ChatResponse(BaseModel):
     response: str
 
-def generate_chat_response(user_message: str, history: List[dict] = None) -> str:
-    """Core rule-based conversational logic."""
+def generate_ai_chat_response(user_message: str, history: List[dict] = None, api_key: str = None) -> str:
+    """
+    Handles conversational logic.
+    Uses Google Gemini if API key is provided.
+    Includes auto-discovery and quota-aware fallback (handles 404 and 429 errors).
+    """
+    
+    if api_key:
+        try:
+            genai.configure(api_key=api_key)
+            
+            # --- Dynamic Model Discovery ---
+            available_models = []
+            try:
+                for m in genai.list_models():
+                    if 'generateContent' in m.supported_generation_methods:
+                        available_models.append(m.name)
+            except Exception:
+                available_models = ['models/gemini-1.5-flash', 'models/gemini-1.5-flash-latest', 'models/gemini-pro']
+            
+            if not available_models:
+                return "⚠️ **AI Error:** No compatible models found for your API key."
+
+            # Priority order: Flash is preferred for Free Tier because it has much higher quota limits
+            priority = ['1.5-flash', '1.5-flash-latest', '1.5-pro', 'pro', '1.0-pro']
+            
+            # Reorder available models based on priority
+            sorted_models = []
+            for p in priority:
+                for m in available_models:
+                    if p in m.lower() and m not in sorted_models:
+                        sorted_models.append(m)
+            
+            # Add any remaining models
+            for m in available_models:
+                if m not in sorted_models:
+                    sorted_models.append(m)
+
+            last_error = ""
+            # --- Model Trial Loop ---
+            for m_name in sorted_models:
+                try:
+                    model = genai.GenerativeModel(m_name)
+                    
+                    system_instruction = (
+                        "You are an expert AI Career Advisor for the Salary Intelligence Platform. "
+                        "Always remain professional and helpful. Focus on Data Science and AI careers."
+                    )
+
+                    transformed_history = []
+                    if history:
+                        for msg in history[:-1]:
+                            role = "user" if msg['role'] == "user" else "model"
+                            transformed_history.append({"role": role, "parts": [msg['content']]})
+
+                    chat = model.start_chat(history=transformed_history)
+                    response = chat.send_message(f"{system_instruction}\n\nUser: {user_message}")
+                    return response.text
+                    
+                except Exception as e:
+                    last_error = str(e)
+                    # If 404 (Not Found) or 429 (Quota Exceeded), try the next model
+                    if "404" in last_error or "429" in last_error or "quota" in last_error.lower():
+                        continue
+                    else:
+                        return f"⚠️ **AI Error:** {last_error}"
+            
+            return f"⚠️ **AI Quota Error:** All available models are currently busy or out of free credits. Please wait 60 seconds and try again. ({last_error})"
+            
+        except Exception as e:
+            return f"⚠️ **AI Error:** {str(e)}"
+
+    # --- Mode 2: Rule-Based Fallback ---
     msg = user_message.lower()
-    
-    # Career constraint enforcement: if it doesn't look like a career query and it's not a generic greeting
-    greetings = ["hi", "hello", "hey", "help", "start"]
-    if any(g in msg for g in greetings) and len(msg.split()) <= 3:
-        return "👋 Hello! I'm your AI Career Assistant. I can help you with salary insights, skill recommendations, and career path advice. What would you like to know?"
-    
-    # Rule 1: Salary
-    if "salary" in msg or "pay" in msg or "compensation" in msg:
-        if "data scientist" in msg:
-            return "Based on our latest intelligence, Data Scientists command an average salary of $125k to $145k depending on location and experience. Remote roles tend to have a slight premium for top-tier tech firms."
-        elif "engineer" in msg or "ml" in msg or "machine learning" in msg:
-            return "Machine Learning Engineers generally see starting salaries around $130k, scaling up past $160k with expertise in PyTorch, MLOps, and Kubernetes."
-        elif "analyst" in msg:
-            return "Data Analysts average between $75k to $95k. Adding advanced Python and Dashboarding skills (like Tableau) to your resume often drives salaries toward the upper band."
-        else:
-            return "Salaries can vary wildly by specific roles. Could you tell me exactly which tech or data role you're targeting so I can provide customized numbers?"
-            
-    # Rule 2: Skills
-    elif "skill" in msg or "learn" in msg or "technolog" in msg or "tools" in msg:
-        if "engineer" in msg:
-            return "For Engineering roles, the highest ROI skills dynamically trending right now are Kubernetes, Cloud Architecture (AWS/GCP), and scalable system design."
-        elif "data" in msg or "scientist" in msg or "analyst" in msg:
-            return "Data roles heavily value deep expertise in Python, SQL, and advanced Machine Learning frameworks (like Scikit-Learn or PyTorch). If you're an analyst, definitely master SQL window functions!"
-        else:
-            return "The best skills depend on the role. Generally, Python and Cloud Computing show the highest cross-domain ROI on the market right now."
-            
-    # Rule 3: Career Advice / Growth
-    elif "career" in msg or "promot" in msg or "advice" in msg or "growth" in msg or "path" in msg:
-        return "To accelerate your career growth, consistently document your impact and dollar-value contributions to the company. Additionally, bridging the gap between technical execution and business strategy usually signals readiness for Senior or Lead promotions."
-        
-    # Rule 4: Match generic tech terms
-    elif "python" in msg or "sql" in msg or "cloud" in msg:
-        return "That's a fantastic area to focus on. Tools like Python, SQL, and Cloud platforms form the critical backbone of modern data infrastructure."
-        
-    # Constraint: Unknown / Out of scope
-    else:
-        return "Hmm... I specialize strictly in career progression, salary insights, and technical skill development. Could you rephrase your question to relate to your tech career?"
+    if "salary" in msg or "pay" in msg:
+        return "In Basic Mode, I can tell you that Data Scientists generally earn $120k-$160k. Provide an API key for a deep-dive analysis!"
+    return "I am currently in **Basic Mode**. Add a Gemini API key in the sidebar for full AI intelligence!"
 
 @router.post("/")
 def chat_endpoint(request: ChatRequest):
     history_dicts = [{"role": msg.role, "content": msg.content} for msg in request.history] if request.history else []
-    response_text = generate_chat_response(request.message, history_dicts)
+    response_text = generate_ai_chat_response(request.message, history_dicts, request.api_key)
     return ChatResponse(response=response_text)

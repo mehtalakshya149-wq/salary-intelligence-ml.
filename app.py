@@ -18,38 +18,31 @@ st.set_page_config(
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=Playfair+Display:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
 :root {
-    --primary:        #1B2B4B;
-    --primary-mid:    #243A63;
-    --accent:         #2F80ED;
-    --accent-light:   #EBF3FD;
-    --accent-glow:    rgba(47,128,237,0.12);
-    --success:        #0F6E56;
-    --success-bg:     #E1F5EE;
-    --warning:        #BA7517;
-    --warning-bg:     #FAEEDA;
-    --danger:         #A32D2D;
-    --danger-bg:      #FCEBEB;
-    --surface:        #FFFFFF;
-    --surface-2:      #F7F8FA;
-    --surface-3:      #EEF0F5;
-    --border:         rgba(27,43,75,0.10);
-    --border-strong:  rgba(27,43,75,0.20);
-    --text-primary:   #1B2B4B;
-    --text-secondary: #52637A;
-    --text-muted:     #8B9DB5;
-    --radius-sm:      6px;
-    --radius-md:      10px;
-    --radius-lg:      16px;
-    --radius-xl:      22px;
+    --primary:        #0A1128;
+    --primary-glass:  rgba(10,17,40,0.85);
+    --primary-mid:    #001F54;
+    --accent:         #00D2FF;
+    --accent-glow:    rgba(0,210,255,0.15);
+    --accent-light:   #E0F7FA;
+    --surface:        rgba(10,17,40,0.92);
+    --surface-glass:  rgba(255,255,255,0.05);
+    --surface-2:      #0F172A;
+    --border:         rgba(0,210,255,0.12);
+    --border-strong:  rgba(0,210,255,0.25);
+    --text-primary:   #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-muted:     #64748B;
+    --radius-md:      12px;
+    --radius-lg:      20px;
+    --radius-xl:      28px;
     --font-body:      'DM Sans', sans-serif;
     --font-display:   'Playfair Display', serif;
-    --font-mono:      'DM Mono', monospace;
-    --shadow-sm:      0 1px 3px rgba(27,43,75,0.06), 0 1px 2px rgba(27,43,75,0.04);
-    --shadow-md:      0 4px 12px rgba(27,43,75,0.08), 0 2px 4px rgba(27,43,75,0.04);
-    --shadow-lg:      0 12px 32px rgba(27,43,75,0.10), 0 4px 8px rgba(27,43,75,0.04);
-    --transition:     all 0.22s cubic-bezier(0.4,0,0.2,1);
+    --shadow-soft:    0 4px 20px -2px rgba(27,43,75,0.08), 0 2px 10px -1px rgba(27,43,75,0.04);
+    --shadow-glass:   0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    --transition:     all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 html, body, [class*="css"] {
@@ -73,23 +66,57 @@ summary span[class*="css-"],
 
 /* ── App Background ── */
 .stApp {
-    background: var(--surface-2) !important;
+    background: radial-gradient(circle at 50% 0%, #0D2149 0%, var(--primary) 70%) !important;
 }
 
 /* ── Sidebar ── */
+/* ── Sidebar Style Refinements ── */
 [data-testid="stSidebar"] {
-    background: var(--primary) !important;
-    border-right: none !important;
-    box-shadow: 4px 0 24px rgba(27,43,75,0.14) !important;
+    background: linear-gradient(180deg, var(--primary) 0%, var(--primary-mid) 100%) !important;
+    border-right: 1px solid rgba(255,255,255,0.05) !important;
+    box-shadow: 10px 0 40px rgba(0,0,0,0.2) !important;
+    backdrop-filter: blur(12px) !important;
 }
-[data-testid="stSidebar"] * {
-    color: rgba(255,255,255,0.88) !important;
+/* Target text elements specifically to avoid breaking Material Icon ligatures */
+[data-testid="stSidebar"] div, 
+[data-testid="stSidebar"] p, 
+[data-testid="stSidebar"] span:not(.material-symbols-rounded):not(.stIcon),
+[data-testid="stSidebar"] a {
     font-family: var(--font-body) !important;
 }
+
+/* Hard-fix for Native Streamlit Icons that use ligatures */
+[data-testid="stSidebarCollapseButton"] span,
+button[aria-label="Expand sidebar"] span,
+button[aria-label="Collapse sidebar"] span {
+    font-family: "Material Symbols Rounded", "Material Icons" !important;
+    font-variant-ligatures: common-ligatures !important;
+    font-feature-settings: "liga" !important;
+    font-size: 0px !important; /* Hide the literal text word 'keyboard_dou' */
+    color: transparent !important;
+}
+
+[data-testid="stSidebarCollapseButton"] span::before,
+button[aria-label="Expand sidebar"] span::before,
+button[aria-label="Collapse sidebar"] span::before {
+    content: "chevron_left"; /* Use a simpler icon name or the same one */
+    font-family: "Material Symbols Rounded", "Material Icons" !important;
+    font-size: 24px !important;
+    color: white !important;
+    visibility: visible !important;
+    font-variant-ligatures: common-ligatures !important;
+}
+
+button[aria-label="Expand sidebar"] span::before {
+    content: "menu";
+}
+
 [data-testid="stSidebar"] .material-symbols-rounded,
 [data-testid="stSidebar"] [class*="material-symbols"],
-[data-testid="stSidebar"] .stIcon {
+[data-testid="stSidebar"] .stIcon,
+[data-testid="stSidebar"] [data-testid="stIconMaterial"] {
     font-family: "Material Symbols Rounded", "Material Icons" !important;
+    font-variant-ligatures: common-ligatures !important;
 }
 [data-testid="stSidebarNav"] a {
     border-radius: var(--radius-md) !important;
@@ -106,10 +133,12 @@ summary span[class*="css-"],
     color: #FFFFFF !important;
 }
 [data-testid="stSidebarNav"] a[aria-selected="true"] {
-    background: rgba(47,128,237,0.22) !important;
-    color: #FFFFFF !important;
-    font-weight: 500 !important;
-    border-left: 3px solid #2F80ED !important;
+    background: rgba(0,210,255,0.12) !important;
+    color: #00D2FF !important;
+    font-weight: 600 !important;
+    border-left: 4px solid #00D2FF !important;
+    box-shadow: inset 0 0 20px rgba(0,210,255,0.1) !important;
+    text-shadow: 0 0 15px rgba(0,210,255,0.4) !important;
 }
 
 /* ── Main Content ── */
@@ -189,6 +218,25 @@ p, li, span {
     box-shadow: 0 0 0 3px var(--accent-glow) !important;
     outline: none !important;
 }
+
+/* Hide the redundant "Press Enter to submit form" hint which overlaps icons */
+div[data-testid="InputInstructions"],
+div[data-testid="stInputInstructions"],
+div[data-testid="stFieldDescription"],
+div[data-testid="stFormSubmitButton"] + div,
+.stTextInput p:last-child {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0px !important;
+    font-size: 0px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Ensure the password eye icon doesn't overlap text */
+.stTextInput input[type="password"] {
+    padding-right: 3rem !important;
+}
 .stSelectbox > div > div,
 .stMultiselect > div > div {
     background: var(--surface) !important;
@@ -209,11 +257,12 @@ p, li, span {
 
 /* ── Metrics ── */
 [data-testid="stMetric"] {
-    background: var(--surface) !important;
-    border: 1px solid var(--border) !important;
+    background: var(--surface-glass) !important;
+    backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(255,255,255,0.3) !important;
     border-radius: var(--radius-lg) !important;
-    padding: 1.2rem 1.4rem !important;
-    box-shadow: var(--shadow-sm) !important;
+    padding: 1.5rem !important;
+    box-shadow: var(--shadow-glass) !important;
     transition: var(--transition) !important;
 }
 [data-testid="stMetric"]:hover {
@@ -226,12 +275,12 @@ p, li, span {
     font-weight: 600 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.07em !important;
-    color: var(--text-muted) !important;
+    color: var(--text-secondary) !important;
 }
 [data-testid="stMetricValue"] {
-    font-size: 1.75rem !important;
-    font-weight: 600 !important;
-    color: var(--primary) !important;
+    color: var(--accent) !important;
+    font-size: 2.4rem !important;
+    font-weight: 700 !important;
     font-family: var(--font-display) !important;
 }
 
@@ -373,9 +422,16 @@ code, pre {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #2F80ED 0%, #6BAAFF 60%, transparent 100%);
+    height: 4px;
+    background: linear-gradient(90deg, #00D2FF, #0072FF, #00D2FF);
+    background-size: 200% auto;
+    animation: gradient-flow 6s linear infinite;
     border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+@keyframes gradient-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 .page-header-eyebrow {
     font-size: 11px;
@@ -426,7 +482,7 @@ code, pre {
 .stat-value {
     font-family: var(--font-display);
     font-size: 1.9rem; font-weight: 700;
-    color: var(--primary); line-height: 1; margin-bottom: 6px;
+    color: var(--text-primary); line-height: 1; margin-bottom: 6px;
 }
 .stat-delta-pos { color: var(--success); font-size: 12px; font-weight: 500; }
 .stat-delta-neg { color: var(--danger);  font-size: 12px; font-weight: 500; }
@@ -457,7 +513,7 @@ code, pre {
 }
 .result-card-value {
     font-family: var(--font-display);
-    font-size: 2.1rem; font-weight: 700; color: var(--primary);
+    font-size: 2.1rem; font-weight: 700; color: var(--text-primary);
 }
 
 .session-badge {
@@ -624,6 +680,7 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in   = False
     st.session_state.user_role   = None
     st.session_state.username    = None
+    st.session_state.token       = None
     st.session_state.last_active = time.time()
 
 if st.session_state.logged_in:

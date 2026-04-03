@@ -1,5 +1,7 @@
 import streamlit as st
 import random
+import json
+import os
 from datetime import datetime
 from app import page_header
 from api.database import SessionLocal
@@ -13,7 +15,7 @@ if not st.session_state.get("logged_in", False):
     st.error("Please login to access notifications.")
     st.stop()
 
-# Resolve user_id from DB if not already cached in session (login.py only stores username)
+# Resolve user_id from DB if not already cached in session
 if not st.session_state.get("user_id"):
     try:
         _db = SessionLocal()
@@ -36,16 +38,27 @@ with col_btn:
     if st.button("AI Opportunity Scan 🤖", use_container_width=True, type="primary"):
         try:
             db = SessionLocal()
-            skill_alerts = [
-                ("Skill Demand Surge: PyTorch", "We tracked a 14% increase in job postings requiring PyTorch in the last 30 days. Consider updating your portfolio!"),
-                ("Skill Demand Surge: MLOps", "Companies are prioritizing deployment architectures. Adding AWS/Docker to your profile can boost your compensation by 8%."),
-                ("Skill Demand Surge: Generative AI", "LLM integrations are trending heavily in your sector. Familiarity with LangChain is now a top-tier asset."),
-            ]
-            salary_alerts = [
-                ("Salary Growth Opportunity", "Market medians have adjusted upward for Senior-level roles in your area by 6%. Prepare your negotiation metrics."),
-                ("Remote Premium Identified", "100% Remote roles for your title are currently out-earning hybrid roles. Filter your search criteria to maximize ROI."),
-                ("Sector Expansion", "FinTech companies are actively recruiting profiles similar to yours with compensation bands 12% above market average."),
-            ]
+            
+            # Dynamic Market Cache from ml/market_data.json
+            market_data_path = "ml/market_data.json"
+            skill_alerts = []
+            salary_alerts = []
+            last_scan_date = "Unknown"
+            
+            if os.path.exists(market_data_path):
+                with open(market_data_path, "r") as f:
+                    data = json.load(f)
+                    skill_alerts = [(a["title"], a["message"]) for a in data.get("skill_alerts", [])]
+                    salary_alerts = [(a["title"], a["message"]) for a in data.get("salary_alerts", [])]
+                    last_scan_date = data.get("metadata", {}).get("last_scan", "Unknown")
+
+            # Fetch existing notification titles to prevent duplicates
+            existing_notifs = db.query(Notification.title).filter(Notification.user_id == user_id).all()
+            existing_titles = {n[0] for n in existing_notifs}
+
+            # Filter for new alerts only
+            available_skill_alerts = [a for a in skill_alerts if a[0] not in existing_titles]
+            available_salary_alerts = [a for a in salary_alerts if a[0] not in existing_titles]
 
             latest_pred = (
                 db.query(SalaryPrediction)
@@ -54,19 +67,29 @@ with col_btn:
                 .first()
             )
 
-            sal_title, sal_msg = random.choice(salary_alerts)
-            if latest_pred:
-                sal_msg = f"For trailing '{latest_pred.job_title}' roles: " + sal_msg
-            db.add(Notification(user_id=user_id, title=sal_title, message=sal_msg))
+            # Generate new notifications
+            new_count = 0
+            if available_salary_alerts:
+                sal_title, sal_msg = random.choice(available_salary_alerts)
+                if latest_pred:
+                    sal_msg = f"For trailing '{latest_pred.job_title}' roles: " + sal_msg
+                db.add(Notification(user_id=user_id, title=sal_title, message=sal_msg))
+                new_count += 1
 
-            if random.choice([True, False]):
-                sk_title, sk_msg = random.choice(skill_alerts)
+            if available_skill_alerts and (random.choice([True, False]) or not available_salary_alerts):
+                sk_title, sk_msg = random.choice(available_skill_alerts)
                 db.add(Notification(user_id=user_id, title=sk_title, message=sk_msg))
+                new_count += 1
 
-            db.commit()
+            if new_count == 0:
+                st.info(f"Market remains stable since scan on {last_scan_date}. No new unique AI insights found for your profile today.")
+            else:
+                db.commit()
+                st.success(f"Market scan complete! {new_count} new AI insight(s) added based on 2026 data.")
+            
             db.close()
-            st.success("Analysis complete, check below.")
-            st.rerun()
+            if new_count > 0:
+                st.rerun()
         except Exception as e:
             st.error(f"Error generating notifications: {e}")
 
@@ -80,7 +103,7 @@ try:
         .order_by(Notification.created_at.desc())
         .all()
     )
-    # Ensure bool is correct
+    
     for n in notifications:
         n.is_read = bool(n.is_read)
 

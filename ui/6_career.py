@@ -39,4 +39,4 @@ if st.button("Initiate Multi-Year Simulation", type="primary", use_container_wid
                 st.dataframe(df_recs[["role", "change_pct", "Projected Salary"]], use_container_width=True)
             
         except Exception as e:
-            st.error(f"Generative projection mapping encountered an error: {e}")
+             st.error(f"Generative projection mapping encountered an error: {e}")

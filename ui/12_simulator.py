@@ -17,15 +17,36 @@ with col_inputs:
     st.markdown("### Adjust Levers")
     st.markdown("<p style='font-size:13px;color=gray'>Any change made here will instantly compute a new salary simulation.</p>", unsafe_allow_html=True)
     
+    # Currency & Location Config
+    CURRENCY_MAP = {
+        "US": {"symbol": "$", "rate": 1.0, "name": "United States"},
+        "GB": {"symbol": "£", "rate": 0.8, "name": "United Kingdom"},
+        "CA": {"symbol": "$", "rate": 1.35, "name": "Canada"},
+        "DE": {"symbol": "€", "rate": 0.92, "name": "Germany"},
+        "IN": {"symbol": "₹", "rate": 83.0, "name": "India"},
+        "FR": {"symbol": "€", "rate": 0.92, "name": "France"},
+        "ES": {"symbol": "€", "rate": 0.92, "name": "Spain"},
+        "AU": {"symbol": "$", "rate": 1.5, "name": "Australia"},
+        "BR": {"symbol": "R$", "rate": 5.0, "name": "Brazil"},
+        "JP": {"symbol": "¥", "rate": 150.0, "name": "Japan"}
+    }
+    
     # Notice we don't use 'with st.form' here. Streamlit natively responds to widget changes.
     job_title = st.selectbox("Simulated Job Title", ["Data Scientist", "ML Engineer", "Data Analyst", "Data Engineer", "AI Researcher"])
     exp = st.select_slider("Experience Level", options=["EN", "MI", "SE", "EX"], value="MI")
-    loc = st.text_input("Company Location", value="US")
+    
+    # Expand location options
+    loc_options = list(CURRENCY_MAP.keys())
+    loc = st.selectbox("Company Location", options=loc_options, index=0)
+    
     rem = st.slider("Remote Work Ratio (%)", min_value=0, max_value=100, step=50, value=100)
     skills = st.text_area("Skillset", value="Python, SQL")
     
+    # Get currency details
+    curr_symbol = CURRENCY_MAP[loc]["symbol"]
+    curr_rate = CURRENCY_MAP[loc]["rate"]
+
     # We will freeze some sensible defaults behind the scenes so the model doesn't complain
-    # but the user only tweaks the most important elements.
     emp = "FT"
     size = "M"
     yr = 2024
@@ -49,19 +70,21 @@ with col_outputs:
     else:
         try:
             res = run_prediction(inputs, "ml/config.yaml")
-            median = res['salary']['average']
-            low = res['salary']['min']
-            high = res['salary']['max']
-            adj = res['inflation_adjusted']['adjusted']
+            
+            # Convert USD results to local currency
+            median = res['salary']['average'] * curr_rate
+            low = res['salary']['min'] * curr_rate
+            high = res['salary']['max'] * curr_rate
+            adj = res['inflation_adjusted']['adjusted'] * curr_rate
             
             # Show big main card for the adjusted value
-            result_card("SIMULATED MEDIAN SALARY", f"${median:,.0f}")
+            result_card("SIMULATED MEDIAN SALARY", f"{curr_symbol}{median:,.0f}")
             
             st.markdown("<br>", unsafe_allow_html=True)
             c1, c2, c3 = st.columns(3)
-            c1.metric("Low Band (P10)", f"${low:,.0f}")
-            c2.metric("Inflation Adj (2024)", f"${adj:,.0f}")
-            c3.metric("High Band (P90)", f"${high:,.0f}")
+            c1.metric("Low Band (P10)", f"{curr_symbol}{low:,.0f}")
+            c2.metric("Inflation Adj (2024)", f"{curr_symbol}{adj:,.0f}")
+            c3.metric("High Band (P90)", f"{curr_symbol}{high:,.0f}")
             
             # Minor confidence text
             conf_str = f"**Confidence Score:** {res['confidence']['score']}%"

@@ -19,7 +19,8 @@ def apply_theme():
     st.sidebar.button(
         "🌓 Toggle Dark/Light Mode",
         on_click=toggle_theme,
-        use_container_width=True
+        use_container_width=True,
+        type="secondary"
     )
 
     # CSS overrides for accessible contrasts mapping to Streamlit's internal variables
@@ -27,19 +28,20 @@ def apply_theme():
         css = """
         <style>
         [data-testid="stAppViewContainer"] {
-            background-color: #0e1117 !important;
-            color: #fafafa !important;
+            background-color: #0A1128 !important;
+            color: #F8FAFC !important;
         }
         [data-testid="stSidebar"] {
-            background-color: #262730 !important;
+            background-color: #001F54 !important;
         }
         [data-testid="stHeader"] {
             background-color: #0e1117 !important;
         }
         /* Make inputs readable against dark background */
         input, select, textarea {
-            color: #fafafa !important;
-            background-color: #1a1c24 !important;
+            color: #F8FAFC !important;
+            background-color: #0F172A !important;
+            border: 1px solid rgba(0,210,255,0.2) !important;
         }
         div[data-baseweb="select"] > div {
             background-color: #1a1c24 !important;
@@ -68,12 +70,32 @@ def apply_theme():
             color: #31333F !important;
             background-color: #ffffff !important;
         }
-        div[data-baseweb="select"] > div {
+        [data-baseweb="select"] > div {
             background-color: #ffffff !important;
-            color: #31333F !important;
+            color: #1B2B4B !important;
+            border: 1px solid rgba(27,43,75,0.1) !important;
         }
         .stMetricValue, .stMetricLabel {
-            color: #31333F !important;
+            color: #1B2B4B !important;
+        }
+        [data-testid="stSidebar"] *, [data-testid="stSidebar"] a {
+            color: #1B2B4B !important;
+        }
+        [data-testid="stSidebarNav"] a[aria-selected="true"] {
+            color: #00D2FF !important;
+            background: rgba(0,210,255,0.08) !important;
+            font-weight: 600 !important;
+        }
+        h1, h2, h3, .page-header-title {
+            color: #1B2B4B !important;
+        }
+        .page-header {
+            background: #ffffff !important;
+            box-shadow: 0 4px 20px rgba(27,43,75,0.05) !important;
+        }
+        [data-testid="stMetric"] {
+            background: rgba(255,255,255,0.9) !important;
+            border: 1px solid rgba(27,43,75,0.05) !important;
         }
         </style>
         """

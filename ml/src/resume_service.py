@@ -57,31 +57,39 @@ def analyze_resume_text(text: str, target_role: str = None) -> dict:
         # Add bonus for role-specific keywords in the text
         role_keywords = [role.lower()]
         if role == "ML Engineer":
-            role_keywords.append("machine learning engineer")
+            role_keywords.extend(["machine learning engineer", "ml engineer", "ml engineer", "mle"])
+        if role == "Data Scientist":
+            role_keywords.extend(["data scientist", "ds", "researcher"])
+        if role == "Data Analyst":
+            role_keywords.append("data analyst")
+        if role == "Data Engineer":
+            role_keywords.append("data engineer")
             
         role_bonus = 0
+        text_lower = text.lower()
         for kw in role_keywords:
-            if kw in text.lower():
-                role_bonus += 5 # Small boost for explicit role mention
+            if re.search(rf"\b{re.escape(kw)}\b", text_lower):
+                role_bonus += 100 # Absolute priority for explicit title mention
                 
         matches[role] = round(base_match + role_bonus, 1)
         
     # Tie-breaking logic
-    # 1. Sort by score (desc)
-    # 2. If scores are close, prefer target_role if it exists
     sorted_matches = sorted(matches.items(), key=lambda x: x[1], reverse=True)
     best_role, best_score = sorted_matches[0]
     
     if target_role and target_role in matches:
-        # If target role is within 10% of the best score, use it as best_role
-        if matches[target_role] >= (best_score - 10):
-            best_role = target_role
-            best_score = matches[target_role]
-
-    current_role = best_role
+        # User explicitly requested a target role, force evaluation against it
+        current_role = target_role
+    else:
+        current_role = best_role
         
-    # Selection Probability (Dummy logic based on skill match + length of text as exp proxy)
-    skill_score = base_match # Use base match for probability calculation
+    # Selection Probability Calculation
+    # Calculate exact skill match for the chosen role
+    current_reqs = ROLE_REQUIREMENTS.get(current_role, [])
+    current_intersection = set(extracted_skills).intersection(set(current_reqs))
+    skill_score = (len(current_intersection) / len(current_reqs)) * 100 if current_reqs else 0
+    skill_score = round(skill_score, 1)
+    
     exp_factor = min(1.0, len(text.split()) / 500) # Assumes 500 words is 'vibrant' experience
     probability = round((skill_score * 0.7) + (exp_factor * 30), 1)
     

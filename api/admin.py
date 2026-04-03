@@ -26,6 +26,11 @@ def delete_user(username: str, db: Session = Depends(get_db), admin: User = Depe
     if not u_del:
         raise HTTPException(status_code=404, detail="User not found")
     db.delete(u_del)
+    
+    # Log Deletion
+    del_log = ModelLog(user_id=admin.id, action=f"ADMIN: Deleted User {username}", endpoint=f"/admin/users/{username}")
+    db.add(del_log)
+    
     db.commit()
     return {"message": f"User {username} successfully deleted."}
 
@@ -65,4 +70,10 @@ def trigger_retraining(background_tasks: BackgroundTasks, admin: User = Depends(
     the Random Forest and Gradient Boosting ensemble using active database data.
     """
     background_tasks.add_task(background_training_task)
+    
+    # Log Retrain Trigger
+    train_log = ModelLog(user_id=admin.id, action="ADMIN: Triggered Global Model Retraining", endpoint="/admin/retrain")
+    db.add(train_log)
+    db.commit()
+    
     return {"message": "Model retraining job offloaded to background worker successfully."}

@@ -5,8 +5,14 @@ from ml.src.skill_gap import get_skill_gap_report
 
 st.set_page_config(page_title="Skill Gap Analysis", page_icon="🎯", layout="wide")
 
-st.title("🎯 Precision Skill Gap Analysis")
-st.markdown("Compare your current technical stack against real-time market requirements derived from thousands of salary data points.")
+# Use the premium header components
+st.markdown("""
+<div class="page-header">
+    <div class="page-header-eyebrow">Precision Analysis</div>
+    <div class="page-header-title">Skill Gap Analysis</div>
+    <p class="page-header-desc">Compare your current technical stack against real-time market requirements derived from thousands of salary data points.</p>
+</div>
+""", unsafe_allow_html=True)
 
 col1, col2 = st.columns([1, 2], gap="large")
 
@@ -45,11 +51,18 @@ with col2:
                     x="Skill",
                     y="Value",
                     color="Status",
-                    color_discrete_map={"Matched": "#4CAF50", "Gap": "#FFC107"},
+                    color_discrete_map={"Matched": "#00D2FF", "Gap": "rgba(148, 163, 184, 0.3)"},
                     title=f"Core Competency Benchmarking: {job_title}",
-                    labels={"Value": "Priority"}
+                    labels={"Value": "Priority"},
+                    template="plotly_dark"
                 )
-                fig.update_layout(yaxis_visible=False, yaxis_showticklabels=False)
+                fig.update_layout(
+                    yaxis_visible=False, 
+                    yaxis_showticklabels=False,
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="rgba(0,0,0,0)",
+                    font_family="'DM Sans', sans-serif"
+                )
                 st.plotly_chart(fig, use_container_width=True)
                 
                 # Gap Table & Path

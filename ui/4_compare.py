@@ -12,7 +12,7 @@ try:
     st.info("Powered by structural Time-Series Regressors natively bridging historical inputs.")
     
     col1, col2 = st.columns(2)
-    filter_col = col1.selectbox("Filter Demographic", ["experience_level", "company_location", "company_size"])
+    filter_col = col1.selectbox("Filter Demographic", ["job_title", "experience_level", "company_location", "company_size", "employment_type"])
     # Convert everything to string for consistency
     unique_vals = sorted(list(set([str(x) for x in df[filter_col].dropna().unique()])))
     filter_val = col2.selectbox("Isolate Specific Target", unique_vals)

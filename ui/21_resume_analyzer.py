@@ -1,6 +1,7 @@
 import streamlit as st
 import json
 from ml.src.resume_service import analyze_resume_text, get_company_recommendations
+import pdfplumber
 
 st.set_page_config(page_title="Resume Analyzer", page_icon="📄", layout="wide")
 

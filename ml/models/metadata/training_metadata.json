@@ -1,6 +1,6 @@
 {
-  "n_train_samples": 240,
-  "n_test_samples": 60,
+  "n_train_samples": 57530,
+  "n_test_samples": 14383,
   "n_features": 15,
   "feature_names": [
     "job_title",
@@ -20,14 +20,14 @@
     "tier_x_exp"
   ],
   "cross_validation": {
-    "cv_r2_mean": 0.7273,
-    "cv_r2_std": 0.0397,
+    "cv_r2_mean": 0.282,
+    "cv_r2_std": 0.0034,
     "cv_r2_scores": [
-      0.6889,
-      0.678,
-      0.7366,
-      0.7464,
-      0.7866
+      0.2834,
+      0.2816,
+      0.2852,
+      0.2756,
+      0.2843
     ]
   },
   "ensemble_weights": {

@@ -95,8 +95,15 @@ def run_bias_audit(config_path: str = "ml/config.yaml") -> dict:
             
         report["dimensions"][dim] = dim_data
 
-    # Final Fairness Score calculation
-    report["fairness_score"] = max(0.0, 100.0 - deductions)
+    # Final Fairness Score calculation: Proportional Fairness relative to total analyzed groups
+    total_analyzed_groups = sum(len(report["dimensions"][d]) for d in report["dimensions"])
+    if total_analyzed_groups > 0:
+        total_bias_penalty = sum(10.0 if flag["status"] == "Flagged - Underrepresented" else 5.0 for flag in report["bias_flags"])
+        # Score = 100 * (1 - (Weighted flags / Total Groups * Penalty factor))
+        # This keeps the score meaningful even with many groups.
+        report["fairness_score"] = round(max(0.0, 100.0 * (1.0 - (total_bias_penalty / (total_analyzed_groups * 10)))), 1)
+    else:
+        report["fairness_score"] = 100.0
     
     # Add summary bullets if clean
     if not report["bias_flags"]:

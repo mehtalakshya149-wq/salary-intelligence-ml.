@@ -1,0 +1,42 @@
+{
+    "skill_alerts": [
+        {
+            "title": "High Demand: RAG & Vector DBs",
+            "message": "Retrieval-Augmented Generation (RAG) and Vector Databases have become peak requirements for AI implementation roles this month. Level up to stay competitive."
+        },
+        {
+            "title": "Market Shift: Applied AI Infrastructure",
+            "message": "The focus has shifted from specialized research to 'Applied AI'—deploying and scaling systems. MLOps is now a mandatory skill for 60% of new AI postings."
+        },
+        {
+            "title": "New Requirement: Prompt Engineering Mastery",
+            "message": "Prompt engineering and fine-tuning expertise are seeing a 15% wage premium in recent April 2026 contracts."
+        },
+        {
+            "title": "Governance Surge: AI Ethics",
+            "message": "Regulatory shifts in early 2026 have spiked demand for AI Ethics and Governance experts by 22% quarter-over-辨."
+        }
+    ],
+    "salary_alerts": [
+        {
+            "title": "Oracle Layoffs & Restructuring",
+            "message": "Oracle initiated massive global layoffs (30k positions) to pivot capital toward AI infrastructure. This signals a major capital shift in the sector."
+        },
+        {
+            "title": "AI Engineer Salary Benchmark: $160k-$260k",
+            "message": "Real-time market data for April 2026 shows Senior AI Engineers commanding between $160,000 and $260,000+ base salary."
+        },
+        {
+            "title": "Sector Boom: Generative AI Implementation",
+            "message": "Companies are hiring aggressively for 'Implementation' roles that drive ROI, moving away from purely experimental AI labs."
+        },
+        {
+            "title": "CAIO Roles Trending",
+            "message": "The emergence of 'Chief AI Officer' roles across Mid-to-Large enterprises is creating a new strategic career peak for senior AI leaders."
+        }
+    ],
+    "metadata": {
+        "last_scan": "2026-04-02",
+        "source": "Web Research Agent (April 2026)"
+    }
+}

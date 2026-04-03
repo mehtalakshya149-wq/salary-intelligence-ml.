@@ -2,7 +2,7 @@ import streamlit as st
 import uuid
 from ml.src.predict import run_prediction
 from api.database import SessionLocal
-from api.models import SalaryPrediction
+from api.models import SalaryPrediction, ModelLog
 
 st.title("🤖 Salary Prediction Engine")
 st.markdown("Use the advanced RandomForest / Gradient Boosting ensemble to calculate highly accurate benchmarks.")
@@ -48,6 +48,11 @@ with colB:
                             confidence_score=float(res['confidence']['score'])
                         )
                         db.add(sp)
+                        
+                        # Log Prediction Activity
+                        pred_log = ModelLog(user_id=u.id, action=f"Prediction: {job_title}", endpoint="UI/Predict")
+                        db.add(pred_log)
+                        
                         db.commit()
                     db.close()
                 except Exception as db_e:
