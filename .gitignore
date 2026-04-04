@@ -31,3 +31,6 @@ Thumbs.db
 # ml/data/processed/*.csv
 # ml/models/trained/*.joblib
 # ml/models/metadata/shap/*.png
+
+*.db
+salary_app.db

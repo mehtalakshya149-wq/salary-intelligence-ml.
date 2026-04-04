@@ -34,6 +34,22 @@ def load_model(model_dir: str, name: str = "ensemble"):
     """
     path = os.path.join(model_dir, f"{name}.joblib")
     model = joblib.load(path)
+    
+    # Prevent Streamlit/Windows multiprocessing deadlock in background threads.
+    # Patch both top-level model and any nested estimators (e.g. VotingRegressor).
+    if hasattr(model, "n_jobs"):
+        model.n_jobs = 1
+    # Patch sub-estimators in VotingRegressor / Pipelines
+    if hasattr(model, "estimators_"):
+        for est in model.estimators_:
+            actual = est[1] if isinstance(est, tuple) else est
+            if hasattr(actual, "n_jobs"):
+                actual.n_jobs = 1
+    if hasattr(model, "estimators"):
+        for name_est, est in (model.estimators if isinstance(model.estimators[0], tuple) else [(None, e) for e in model.estimators]):
+            if hasattr(est, "n_jobs"):
+                est.n_jobs = 1
+
     logger.info(f"Loaded model from {path}")
     return model
 
@@ -171,8 +187,9 @@ def predict_salary(
     avg_salary = float(ensemble_model.predict(X)[0])
 
     # Per-tree predictions from RF for range estimation
+    X_val = X.values
     tree_predictions = np.array([
-        tree.predict(X)[0] for tree in rf_model.estimators_
+        tree.predict(X_val)[0] for tree in rf_model.estimators_
     ])
 
     pctl_low = config["prediction"]["percentile_low"]
@@ -212,8 +229,9 @@ def compute_confidence(rf_model, X: pd.DataFrame, config: dict) -> dict:
     Returns:
         Dict with score (0–100) and label (High/Medium/Low).
     """
+    X_val = X.values
     tree_predictions = np.array([
-        tree.predict(X)[0] for tree in rf_model.estimators_
+        tree.predict(X_val)[0] for tree in rf_model.estimators_
     ])
 
     mean_pred = np.mean(tree_predictions)

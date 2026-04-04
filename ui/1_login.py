@@ -2,8 +2,10 @@ import streamlit as st
 import uuid
 import pandas as pd
 from api.database import SessionLocal, engine, Base
-from api.models import User
-from api.security import get_password_hash, verify_password
+from api.models import User, ModelLog
+from api.security import get_password_hash, verify_password, create_access_token
+
+
 
 # Ensure tables exist for standalone testing
 Base.metadata.create_all(bind=engine)
@@ -26,7 +28,15 @@ with tab1:
                 st.session_state.logged_in = True
                 st.session_state.user_role = user.role
                 st.session_state.username = user.username
+                st.session_state.user_id = user.id
+                st.session_state.token = create_access_token(data={"sub": user.username, "role": user.role})
                 st.session_state.last_active = __import__('time').time()
+                
+                # Log Frontend Login
+                login_log = ModelLog(user_id=user.id, action=f"Frontend Login (Role: {user.role})", endpoint="UI/Login")
+                db.add(login_log)
+                db.commit()
+                
                 st.success(f"Welcome back, {user.username}!")
                 st.rerun()
             else:
@@ -39,7 +49,7 @@ with tab2:
         new_user = st.text_input("Username")
         new_email = st.text_input("Email")
         new_pass = st.text_input("Password", type="password")
-        new_role = st.selectbox("Role", ["user", "admin"])
+        new_role = "user"
         reg_submit = st.form_submit_button("Register")
         if reg_submit:
             db = SessionLocal()

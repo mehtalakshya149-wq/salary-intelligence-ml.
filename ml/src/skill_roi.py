@@ -2,16 +2,18 @@
 skill_roi.py -- Skill ROI Calculator
 ======================================
 Quantifies the salary impact of individual skills using
-model perturbation: predict salary with and without each
-skill, then compute the marginal uplift percentage.
+model perturbation: we directly simulate what happens to
+skills_count at different training-data levels, since the
+OrdinalEncoder collapses all unseen skill strings to -1.
 
-This helps users understand which skills to invest in
-for maximum salary return.
+Skill tiers (mapped from training data range 2-6):
+  Foundational  → skills_count target = 3
+  Intermediate  → skills_count target = 4
+  Advanced      → skills_count target = 5
+  Expert        → skills_count target = 6
 """
 
 import logging
-from typing import Any
-
 from ml.src.preprocess import load_config
 from ml.src.predict import (
     load_model,
@@ -23,50 +25,95 @@ from ml.src.predict import (
 logger = logging.getLogger(__name__)
 
 
+# ── Skill Tier Map ----------------------------------------
+
+# Each skill is mapped to its expected skills_count target
+# based on where similar profiles sit in the training data.
+# Higher count = richer "expert stack" signal to the model.
+SKILL_TIER_TARGET = {
+    # Foundational (target skills_count = 3)
+    "SQL": 3,
+    "Excel": 3,
+    "R": 3,
+    "Tableau": 3,
+
+    # Intermediate (target skills_count = 4)
+    "Python": 4,
+    "AWS": 4,
+    "GCP": 4,
+    "Java": 4,
+    "Hadoop": 4,
+    "Snowflake": 4,
+
+    # Advanced (target skills_count = 5)
+    "TensorFlow": 5,
+    "PyTorch": 5,
+    "Docker": 5,
+    "Spark": 5,
+    "Airflow": 5,
+    "dbt": 5,
+    "Scala": 5,
+
+    # Expert / Architecture (target skills_count = 6)
+    "Kubernetes": 6,
+}
+
+DEFAULT_TIER_TARGET = 4  # Fallback for unknown skills
+
+
 # -- Skill Impact Computation -------------------------------
 
 def compute_skill_impact(
     base_profile: dict,
     skill: str,
-    rf_model: Any,
-    ensemble_model: Any,
+    rf_model,
+    ensemble_model,
     encoders: dict,
     config: dict,
 ) -> dict:
     """
-    Compute the marginal salary impact of adding a single skill.
+    Compute the salary impact of a skill using skills_count perturbation.
 
-    Method:
-    1. Predict salary with the base profile (current skills)
-    2. Add the target skill to the profile
-    3. Predict salary again
-    4. Compute delta = (new - base) / base * 100
-
-    Args:
-        base_profile: Dict of user features (must include 'skills').
-        skill: Skill name to evaluate (e.g., 'TensorFlow').
-        rf_model: Fitted RandomForestRegressor.
-        ensemble_model: Fitted VotingRegressor.
-        encoders: Dict with fitted encoder and scaler.
-        config: Parsed config dict.
+    The OrdinalEncoder encodes all unseen skill strings as -1, so we
+    cannot distinguish profiles by the raw skills text at inference.
+    Instead, we directly patch `skills_count` in the preprocessed matrix
+    to the target level for this skill's tier (from SKILL_TIER_TARGET).
 
     Returns:
-        Dict with skill name, base_salary, new_salary, and impact_pct.
+        Dict with skill name, base_salary, new_salary, impact_pct.
     """
-    # Baseline prediction (current skills)
+    # Baseline prediction
     X_base = preprocess_input(base_profile.copy(), config, encoders)
     base_salary = predict_salary(rf_model, ensemble_model, X_base, config)
 
-    # Augmented prediction (add the skill)
-    augmented = base_profile.copy()
-    current_skills = str(augmented.get("skills", ""))
-    if skill.lower() not in current_skills.lower():
-        augmented["skills"] = f"{current_skills}, {skill}" if current_skills else skill
+    # If user already has the skill, impact = 0
+    current_skills = str(base_profile.get("skills", ""))
+    if skill.lower() in current_skills.lower():
+        return {
+            "skill": skill,
+            "base_salary": round(base_salary["average"], 2),
+            "new_salary": round(base_salary["average"], 2),
+            "salary_increase": 0.0,
+            "impact_pct": 0.0,
+        }
 
-    X_aug = preprocess_input(augmented, config, encoders)
+    # Current skills_count
+    current_count = len([s for s in current_skills.split(",") if s.strip()])
+
+    # Target skills_count for this skill's tier
+    target_count = SKILL_TIER_TARGET.get(skill, DEFAULT_TIER_TARGET)
+
+    # If user already has more skills than target, bump by 1
+    if current_count >= target_count:
+        target_count = current_count + 1
+
+    # Patch skills_count in the preprocessed matrix
+    X_aug = X_base.copy()
+    if "skills_count" in X_aug.columns:
+        X_aug["skills_count"] = float(target_count)
+
     new_salary = predict_salary(rf_model, ensemble_model, X_aug, config)
 
-    # Compute impact
     base_avg = base_salary["average"]
     new_avg = new_salary["average"]
     impact_pct = ((new_avg - base_avg) / base_avg * 100) if base_avg > 0 else 0.0
@@ -85,25 +132,12 @@ def compute_skill_impact(
 def rank_skills(
     base_profile: dict,
     skill_list: list[str],
-    rf_model: Any,
-    ensemble_model: Any,
+    rf_model,
+    ensemble_model,
     encoders: dict,
     config: dict,
 ) -> list[dict]:
-    """
-    Rank a list of skills by their salary uplift for a given profile.
-
-    Args:
-        base_profile: Dict of user features.
-        skill_list: List of skill names to evaluate.
-        rf_model: Fitted RandomForestRegressor.
-        ensemble_model: Fitted VotingRegressor.
-        encoders: Dict with fitted encoder and scaler.
-        config: Parsed config dict.
-
-    Returns:
-        List of dicts sorted by impact_pct descending.
-    """
+    """Rank a list of skills by their salary uplift for a given profile."""
     results = []
     for skill in skill_list:
         impact = compute_skill_impact(
@@ -113,14 +147,12 @@ def rank_skills(
         results.append(impact)
         logger.info(f"Skill '{skill}': {impact['impact_pct']:+.2f}%")
 
-    # Sort by impact descending
     results.sort(key=lambda x: x["impact_pct"], reverse=True)
     return results
 
 
 # -- Orchestrator -------------------------------------------
 
-# Default skill pool for evaluation
 DEFAULT_SKILLS = [
     "Python", "SQL", "R", "TensorFlow", "PyTorch", "Spark",
     "AWS", "GCP", "Docker", "Kubernetes", "Tableau", "Excel",
@@ -135,11 +167,6 @@ def get_roi_report(
 ) -> dict:
     """
     Generate a full Skill ROI report.
-
-    Args:
-        base_profile: User's current profile dict.
-        config_path: Path to config YAML.
-        skill_list: Skills to evaluate (defaults to DEFAULT_SKILLS).
 
     Returns:
         Dict with ranked skills and summary statistics.
@@ -168,7 +195,6 @@ def get_roi_report(
         rf_model, ensemble, encoders, config,
     )
 
-    # Summary
     positive = [r for r in ranked if r["impact_pct"] > 0]
     top_3 = ranked[:3] if len(ranked) >= 3 else ranked
 

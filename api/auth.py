@@ -10,7 +10,7 @@ from api.security import (
     create_access_token,
     ACCESS_TOKEN_EXPIRE_MINUTES
 )
-from api.models import User
+from api.models import User, ModelLog
 from api.deps import get_current_user, get_current_admin
 from api.database import get_db
 
@@ -31,6 +31,12 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
+    
+    # Log Registration
+    reg_log = ModelLog(user_id=new_user.id, action="User Registered", endpoint="/auth/register")
+    db.add(reg_log)
+    db.commit()
+    
     return new_user
 
 @router.post("/login", response_model=Token)
@@ -48,6 +54,12 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
         data={"sub": user.username, "role": user.role}, 
         expires_delta=access_token_expires
     )
+    
+    # Log Successful Login
+    login_log = ModelLog(user_id=user.id, action=f"Login Successful (Role: {user.role})", endpoint="/auth/login")
+    db.add(login_log)
+    db.commit()
+    
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/logout")
