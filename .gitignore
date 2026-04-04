@@ -34,3 +34,10 @@ Thumbs.db
 
 *.db
 salary_app.db
+
+*.joblib
+ml/models/trained/
+
+*.joblib
+*.db
+ml/models/trained/

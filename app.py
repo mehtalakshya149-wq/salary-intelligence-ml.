@@ -17,10 +17,11 @@ st.set_page_config(
 # ══════════════════════════════════════════════════════════════════════════════
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=Playfair+Display:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
 :root {
+    /* ── BASE TOKENS (Dark Mode Default) ── */
     --primary:        #0A1128;
     --primary-glass:  rgba(10,17,40,0.85);
     --primary-mid:    #001F54;
@@ -30,11 +31,19 @@ st.markdown("""
     --surface:        rgba(10,17,40,0.92);
     --surface-glass:  rgba(255,255,255,0.05);
     --surface-2:      #0F172A;
+    --surface-3:      rgba(255, 255, 255, 0.05);
     --border:         rgba(0,210,255,0.12);
     --border-strong:  rgba(0,210,255,0.25);
+    
+    /* ── THEME-AWARE VARIABLES ── */
+    --bg-app:         radial-gradient(circle at 50% 0%, #0D2149 0%, var(--primary) 70%);
+    --bg-surface:     rgba(255, 255, 255, 0.04);
+    --sidebar-bg:     #060d1f;
     --text-primary:   #F8FAFC;
     --text-secondary: #94A3B8;
     --text-muted:     #64748B;
+    
+    /* ── COMMON UTILITIES ── */
     --radius-md:      12px;
     --radius-lg:      20px;
     --radius-xl:      28px;
@@ -43,6 +52,24 @@ st.markdown("""
     --shadow-soft:    0 4px 20px -2px rgba(27,43,75,0.08), 0 2px 10px -1px rgba(27,43,75,0.04);
     --shadow-glass:   0 8px 32px 0 rgba(31, 38, 135, 0.07);
     --transition:     all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light-theme"], body[data-theme="light-theme"] .stApp, body[data-theme="light-theme"] {
+    --primary:        #2563EB;
+    --accent:         #2563EB;
+    --accent-light:   rgba(37, 99, 235, 0.08);
+    --bg-app:         #ffffff;
+    --bg-surface:     #f8f9fa;
+    --sidebar-bg:     #f1f5f9;
+    --surface:        #f8f9fa;
+    --surface-2:      #f1f5f9;
+    --surface-3:      #e2e8f0;
+    --text-primary:   #0a0a0a;
+    --text-secondary: #334155;
+    --text-muted:     #64748B;
+    --surface-glass:  rgba(0, 0, 0, 0.03);
+    --border:         rgba(0, 0, 0, 0.1);
+    --border-strong:  rgba(0, 0, 0, 0.15);
 }
 
 html, body, [class*="css"] {
@@ -66,79 +93,517 @@ summary span[class*="css-"],
 
 /* ── App Background ── */
 .stApp {
-    background: radial-gradient(circle at 50% 0%, #0D2149 0%, var(--primary) 70%) !important;
+    background: var(--bg-app) !important;
+}
+
+/* ── Hide Streamlit Header ── */
+header[data-testid="stHeader"], [data-testid="stHeader"], header {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0px !important;
+}
+
+/* Adjust top padding since header is gone */
+.main .block-container {
+    padding-top: 2rem !important;
 }
 
 /* ── Sidebar ── */
-/* ── Sidebar Style Refinements ── */
 [data-testid="stSidebar"] {
-    background: linear-gradient(180deg, var(--primary) 0%, var(--primary-mid) 100%) !important;
-    border-right: 1px solid rgba(255,255,255,0.05) !important;
-    box-shadow: 10px 0 40px rgba(0,0,0,0.2) !important;
-    backdrop-filter: blur(12px) !important;
-}
-/* Target text elements specifically to avoid breaking Material Icon ligatures */
-[data-testid="stSidebar"] div, 
-[data-testid="stSidebar"] p, 
-[data-testid="stSidebar"] span:not(.material-symbols-rounded):not(.stIcon),
-[data-testid="stSidebar"] a {
-    font-family: var(--font-body) !important;
+    width: 260px !important;
+    background: var(--sidebar-bg) !important;
+    border-right: 1px solid var(--border) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100vh !important;
+    padding: 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
 }
 
-/* Hard-fix for Native Streamlit Icons that use ligatures */
-[data-testid="stSidebarCollapseButton"] span,
-button[aria-label="Expand sidebar"] span,
-button[aria-label="Collapse sidebar"] span {
-    font-family: "Material Symbols Rounded", "Material Icons" !important;
-    font-variant-ligatures: common-ligatures !important;
-    font-feature-settings: "liga" !important;
-    font-size: 0px !important; /* Hide the literal text word 'keyboard_dou' */
-    color: transparent !important;
+/* Scrollbar */
+[data-testid="stSidebar"]::-webkit-scrollbar {
+    width: 3px !important;
+}
+[data-testid="stSidebar"]::-webkit-scrollbar-thumb {
+    background: #1e293b !important;
+    border-radius: 999px !important;
 }
 
-[data-testid="stSidebarCollapseButton"] span::before,
-button[aria-label="Expand sidebar"] span::before,
-button[aria-label="Collapse sidebar"] span::before {
-    content: "chevron_left"; /* Use a simpler icon name or the same one */
-    font-family: "Material Symbols Rounded", "Material Icons" !important;
-    font-size: 24px !important;
-    color: white !important;
-    visibility: visible !important;
-    font-variant-ligatures: common-ligatures !important;
+/* Collapse Buttons */
+[data-testid="stSidebarCollapseButton"],
+button[aria-label="Expand sidebar"],
+button[aria-label="Collapse sidebar"] {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 6px !important;
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid rgba(255,255,255,0.07) !important;
+    color: #64748b !important;
+    font-size: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+}
+[data-testid="stSidebarCollapseButton"]:hover,
+button[aria-label="Expand sidebar"]:hover,
+button[aria-label="Collapse sidebar"]:hover {
+    background: rgba(255,255,255,0.08) !important;
+    color: var(--text-primary) !important;
 }
 
-button[aria-label="Expand sidebar"] span::before {
-    content: "menu";
+/* App Branding */
+.sidebar-brand {
+    padding: 16px 20px 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    border-bottom: 1px solid var(--border) !important;
+    padding-bottom: 16px !important;
+    margin-bottom: 8px !important;
 }
 
-[data-testid="stSidebar"] .material-symbols-rounded,
-[data-testid="stSidebar"] [class*="material-symbols"],
-[data-testid="stSidebar"] .stIcon,
-[data-testid="stSidebar"] [data-testid="stIconMaterial"] {
-    font-family: "Material Symbols Rounded", "Material Icons" !important;
-    font-variant-ligatures: common-ligatures !important;
+.sidebar-logo {
+    width: 32px !important;
+    height: 32px !important;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
+    border-radius: 8px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
 }
-[data-testid="stSidebarNav"] a {
-    border-radius: var(--radius-md) !important;
-    margin: 2px 8px !important;
-    padding: 9px 14px !important;
-    font-size: 13.5px !important;
-    font-weight: 400 !important;
-    color: rgba(255,255,255,0.72) !important;
-    transition: var(--transition) !important;
-    letter-spacing: 0.01em !important;
-}
-[data-testid="stSidebarNav"] a:hover {
-    background: rgba(255,255,255,0.10) !important;
+
+.sidebar-logo-text {
     color: #FFFFFF !important;
+    font-weight: 800 !important;
+    font-size: 16px !important;
+    font-family: 'Sora', sans-serif !important;
 }
-[data-testid="stSidebarNav"] a[aria-selected="true"] {
-    background: rgba(0,210,255,0.12) !important;
-    color: #00D2FF !important;
+
+.sidebar-brand-info {
+    flex: 1 !important;
+}
+
+.sidebar-brand-title {
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    color: var(--text-primary) !important;
+    font-family: 'Sora', sans-serif !important;
+    margin: 0 !important;
+}
+
+.sidebar-brand-sub {
+    font-size: 9px !important;
+    color: #475569 !important;
+    letter-spacing: 1.2px !important;
+    text-transform: uppercase !important;
+    display: block !important;
+    margin-top: 1px !important;
+    font-family: 'Sora', sans-serif !important;
+}
+
+/* Section Labels */
+.sidebar-section-label {
+    font-size: 9px !important;
     font-weight: 600 !important;
-    border-left: 4px solid #00D2FF !important;
-    box-shadow: inset 0 0 20px rgba(0,210,255,0.1) !important;
-    text-shadow: 0 0 15px rgba(0,210,255,0.4) !important;
+    color: #334155 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    padding: 10px 20px 6px !important;
+    display: block !important;
+    font-family: 'Sora', sans-serif !important;
+}
+
+/* Section Dividers */
+.sidebar-divider {
+    height: 1px !important;
+    background: rgba(255,255,255,0.05) !important;
+    margin: 8px 20px !important;
+}
+
+/* Navigation Items */
+[data-testid="stSidebarNav"] {
+    padding: 0 !important;
+}
+
+[data-testid="stSidebarNav"] a {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 10px 20px !important;
+    margin: 1px 10px !important;
+    border-radius: 10px !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    font-family: 'Sora', sans-serif !important;
+}
+
+[data-testid="stSidebarNav"] a span:first-child {
+    font-size: 16px !important;
+    width: 20px !important;
+    flex-shrink: 0 !important;
+}
+
+[data-testid="stSidebarNav"] a span:last-child {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    font-family: 'Sora', sans-serif !important;
+}
+
+[data-testid="stSidebarNav"] a:hover {
+    background: rgba(255,255,255,0.05) !important;
+}
+
+[data-testid="stSidebarNav"] a:hover span:last-child {
+    color: #94a3b8 !important;
+}
+
+/* Active State - Default (Indigo) */
+[data-testid="stSidebarNav"] a[aria-selected="true"] {
+    background: rgba(129,140,248,0.15) !important;
+    border: 1px solid rgba(129,140,248,0.2) !important;
+    border-left: 3px solid #818cf8 !important;
+    border-radius: 10px !important;
+}
+
+[data-testid="stSidebarNav"] a[aria-selected="true"] span:last-child {
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+}
+
+/* Per-Item Accent Colors */
+/* Home Overview - Blue */
+[data-testid="stSidebarNav"] a[href*="Home_Overview"][aria-selected="true"] {
+    background: rgba(59,130,246,0.12) !important;
+    border-left: 3px solid #3b82f6 !important;
+}
+
+/* Personalized Dashboard - Blue */
+[data-testid="stSidebarNav"] a[href*="Personalized_Dashboard"][aria-selected="true"] {
+    background: rgba(59,130,246,0.12) !important;
+    border-left: 3px solid #3b82f6 !important;
+}
+
+/* Salary Prediction - Purple */
+[data-testid="stSidebarNav"] a[href*="Salary_Prediction"][aria-selected="true"] {
+    background: rgba(139,92,246,0.12) !important;
+    border-left: 3px solid #8b5cf6 !important;
+}
+
+/* Trend Comparison - Rose */
+[data-testid="stSidebarNav"] a[href*="Trend_Comparison"][aria-selected="true"] {
+    background: rgba(225,29,72,0.12) !important;
+    border-left: 3px solid #e11d48 !important;
+}
+
+/* Skill ROI Calculator - Yellow */
+[data-testid="stSidebarNav"] a[href*="Skill_ROI_Calculator"][aria-selected="true"] {
+    background: rgba(234,179,8,0.12) !important;
+    border-left: 3px solid #eab308 !important;
+}
+
+/* Skill Gap Analysis - Green */
+[data-testid="stSidebarNav"] a[href*="Skill_Gap_Analysis"][aria-selected="true"] {
+    background: rgba(34,197,94,0.12) !important;
+    border-left: 3px solid #22c55e !important;
+}
+
+/* Learning Roadmap - Cyan */
+[data-testid="stSidebarNav"] a[href*="Learning_Roadmap"][aria-selected="true"] {
+    background: rgba(6,182,212,0.12) !important;
+    border-left: 3px solid #06b6d4 !important;
+}
+
+/* Interview Preparation - Purple */
+[data-testid="stSidebarNav"] a[href*="Interview_Preparation"][aria-selected="true"] {
+    background: rgba(168,85,247,0.12) !important;
+    border-left: 3px solid #a855f7 !important;
+}
+
+/* Resume Analyzer - Amber */
+[data-testid="stSidebarNav"] a[href*="Resume_Analyzer"][aria-selected="true"] {
+    background: rgba(245,158,11,0.12) !important;
+    border-left: 3px solid #f59e0b !important;
+}
+
+/* Career Simulator - Sky */
+[data-testid="stSidebarNav"] a[href*="Career_Simulator"][aria-selected="true"] {
+    background: rgba(34,211,238,0.12) !important;
+    border-left: 3px solid #22d3ee !important;
+}
+
+/* AI Explainability - Pink */
+[data-testid="stSidebarNav"] a[href*="AI_Explainability"][aria-selected="true"] {
+    background: rgba(236,72,153,0.12) !important;
+    border-left: 3px solid #ec4899 !important;
+}
+
+/* Ethical AI & Limits - Indigo */
+[data-testid="stSidebarNav"] a[href*="Ethical_AI"][aria-selected="true"] {
+    background: rgba(129,140,248,0.12) !important;
+    border-left: 3px solid #818cf8 !important;
+}
+
+/* Global Salary Heatmap - Sky Blue */
+[data-testid="stSidebarNav"] a[href*="Global_Salary_Heatmap"][aria-selected="true"] {
+    background: rgba(14,165,233,0.12) !important;
+    border-left: 3px solid #0ea5e9 !important;
+}
+
+/* AI Career Assistant - Orange */
+[data-testid="stSidebarNav"] a[href*="AI_Career_Assistant"][aria-selected="true"] {
+    background: rgba(249,115,22,0.12) !important;
+    border-left: 3px solid #f97316 !important;
+}
+
+/* What-If Simulator - Emerald */
+[data-testid="stSidebarNav"] a[href*="What-If_Simulator"][aria-selected="true"] {
+    background: rgba(16,185,129,0.12) !important;
+    border-left: 3px solid #10b981 !important;
+}
+
+/* Cost of Living - Light Blue */
+[data-testid="stSidebarNav"] a[href*="Cost_of_Living"][aria-selected="true"] {
+    background: rgba(56,189,248,0.12) !important;
+    border-left: 3px solid #38bdf8 !important;
+}
+
+/* Download Report - Green */
+[data-testid="stSidebarNav"] a[href*="Download_Report"][aria-selected="true"] {
+    background: rgba(16,185,129,0.12) !important;
+    border-left: 3px solid #10b981 !important;
+}
+
+/* Model Evaluation - Violet */
+[data-testid="stSidebarNav"] a[href*="Model_Evaluation"][aria-selected="true"] {
+    background: rgba(129,140,248,0.12) !important;
+    border-left: 3px solid #818cf8 !important;
+}
+
+/* Notifications - Light Purple */
+[data-testid="stSidebarNav"] a[href*="Notifications"][aria-selected="true"] {
+    background: rgba(192,132,252,0.12) !important;
+    border-left: 3px solid #c084fc !important;
+}
+
+/* User Profile Section */
+.sidebar-user-section {
+    margin-top: auto !important;
+    border-top: 1px solid rgba(255,255,255,0.06) !important;
+    padding: 16px 20px !important;
+}
+
+.sidebar-user-label {
+    font-size: 9px !important;
+    color: #334155 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.2px !important;
+    margin-bottom: 6px !important;
+    display: block !important;
+    font-family: 'Sora', sans-serif !important;
+}
+
+.sidebar-user-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.sidebar-user-avatar {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
+.sidebar-user-avatar-text {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    font-family: 'Sora', sans-serif !important;
+}
+
+.sidebar-user-info {
+    flex: 1 !important;
+}
+
+.sidebar-user-name {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: var(--text-primary) !important;
+    font-family: 'Sora', sans-serif !important;
+    margin: 0 !important;
+}
+
+.sidebar-user-role {
+    font-size: 11px !important;
+    color: #475569 !important;
+    display: block !important;
+    font-family: 'Sora', sans-serif !important;
+}
+
+/* Session Badge */
+.session-badge {
+    background: rgba(16,185,129,0.12) !important;
+    border: 1px solid rgba(16,185,129,0.2) !important;
+    border-radius: 999px !important;
+    padding: 4px 12px !important;
+    font-size: 11px !important;
+    color: #10b981 !important;
+    font-weight: 600 !important;
+    margin-top: 8px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-family: 'Sora', sans-serif !important;
+}
+
+.session-dot {
+    width: 6px !important;
+    height: 6px !important;
+    border-radius: 50% !important;
+    background: #10b981 !important;
+    animation: pulse 2s ease infinite !important;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* Logout Button */
+.sidebar-logout-btn {
+    background: transparent !important;
+    border: 1px solid rgba(239,68,68,0.2) !important;
+    color: #ef4444 !important;
+    border-radius: 8px !important;
+    padding: 6px 16px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    margin-top: 10px !important;
+    width: 100% !important;
+    cursor: pointer !important;
+    transition: all 0.2s !important;
+    font-family: 'Sora', sans-serif !important;
+}
+
+.sidebar-logout-btn:hover {
+    background: rgba(239,68,68,0.1) !important;
+}
+
+/* Theme Toggle */
+.sidebar-theme-toggle {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-top: 12px !important;
+    padding: 4px 0 !important;
+}
+
+.theme-icon {
+    font-size: 14px !important;
+    color: #64748b !important;
+    line-height: 1 !important;
+}
+
+.theme-toggle-switch {
+    width: 36px !important;
+    height: 20px !important;
+    border-radius: 999px !important;
+    background: #1e293b !important;
+    border: 1px solid #334155 !important;
+    position: relative !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    flex-shrink: 0 !important;
+}
+
+.theme-toggle-switch.active {
+    background: #3b82f6 !important;
+    border-color: #3b82f6 !important;
+}
+
+.theme-toggle-thumb {
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 50% !important;
+    background: white !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 2px !important;
+    transform: translateY(-50%) !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+}
+
+.theme-toggle-switch.active .theme-toggle-thumb {
+    left: calc(100% - 18px) !important;
+}
+
+.theme-label {
+    font-size: 12px !important;
+    color: #64748b !important;
+    font-family: 'Sora', sans-serif !important;
+    font-weight: 500 !important;
+    margin-left: 2px !important;
+}
+
+/* Theme Toggle Checkbox Styling */
+div[data-testid="stCheckbox"]:has(input[key="sidebar_theme_toggle"]) {
+    padding: 12px 20px !important;
+    margin: 0 !important;
+}
+div[data-testid="stCheckbox"]:has(input[key="sidebar_theme_toggle"]) label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    cursor: pointer !important;
+}
+div[data-testid="stCheckbox"]:has(input[key="sidebar_theme_toggle"]) input[type="checkbox"] {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    width: 36px !important;
+    height: 20px !important;
+    background: #1e293b !important;
+    border: 1px solid #334155 !important;
+    border-radius: 999px !important;
+    position: relative !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    flex-shrink: 0 !important;
+}
+div[data-testid="stCheckbox"]:has(input[key="sidebar_theme_toggle"]) input[type="checkbox"]:checked {
+    background: #3b82f6 !important;
+    border-color: #3b82f6 !important;
+}
+div[data-testid="stCheckbox"]:has(input[key="sidebar_theme_toggle"]) input[type="checkbox"]::after {
+    content: '' !important;
+    position: absolute !important;
+    width: 16px !important;
+    height: 16px !important;
+    background: white !important;
+    border-radius: 50% !important;
+    top: 50% !important;
+    left: 2px !important;
+    transform: translateY(-50%) !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+}
+div[data-testid="stCheckbox"]:has(input[key="sidebar_theme_toggle"]) input[type="checkbox"]:checked::after {
+    left: 18px !important;
+}
+div[data-testid="stCheckbox"]:has(input[key="sidebar_theme_toggle"]) span {
+    font-size: 12px !important;
+    color: #64748b !important;
+    font-family: 'Sora', sans-serif !important;
+    font-weight: 500 !important;
 }
 
 /* ── Main Content ── */
@@ -169,7 +634,7 @@ h3 {
     font-weight: 600 !important;
     color: var(--text-primary) !important;
 }
-p, li, span {
+p, li, span, div:not([data-testid="stSidebar"]) {
     font-family: var(--font-body) !important;
     font-size: 14.5px !important;
     line-height: 1.65 !important;
@@ -540,7 +1005,7 @@ code, pre {
 .sidebar-brand-title {
     font-family: var(--font-display);
     font-size: 1.15rem; font-weight: 700;
-    color: #FFFFFF; letter-spacing: -0.01em; line-height: 1.3;
+    color: var(--text-primary); letter-spacing: -0.01em; line-height: 1.3;
 }
 .sidebar-brand-sub {
     font-family: var(--font-body);
@@ -713,35 +1178,65 @@ apply_theme()
 # ══════════════════════════════════════════════════════════════════════════════
 if st.session_state.logged_in:
     with st.sidebar:
+        # App Branding at top
         st.markdown("""
         <div class="sidebar-brand">
-            <div class="sidebar-brand-title">💸 Salary Intelligence</div>
-            <div class="sidebar-brand-sub">Data Science · Analytics</div>
+            <div class="sidebar-logo">
+                <span class="sidebar-logo-text">S</span>
+            </div>
+            <div class="sidebar-brand-info">
+                <div class="sidebar-brand-title">Salary Intelligence</div>
+                <span class="sidebar-brand-sub">DATA SCIENCE · ANALYTICS</span>
+            </div>
         </div>
         """, unsafe_allow_html=True)
-
+        
+        # Main Menu Section Label
+        st.markdown("""
+        <span class="sidebar-section-label">MAIN MENU</span>
+        """, unsafe_allow_html=True)
+        
+        # Navigation will be rendered here automatically by Streamlit
+        
         username = st.session_state.username or "User"
         role     = (st.session_state.user_role or "").capitalize()
+        initial = username[0].upper() if username else "U"
+        
+        # Theme toggle function
+        def toggle_theme():
+            if st.session_state.theme == "dark":
+                st.session_state.theme = "light"
+            else:
+                st.session_state.theme = "dark"
+        
+        is_dark = st.session_state.theme == "dark"
+        
+        # User Profile Section at bottom
         st.markdown(f"""
-        <div style="padding:0.6rem 1rem 0.3rem;">
-            <div style="font-size:11px;color:rgba(255,255,255,0.40);letter-spacing:0.06em;
-                        text-transform:uppercase;margin-bottom:4px;font-family:'DM Sans',sans-serif;">
-                Signed in as
+        <div class="sidebar-user-section">
+            <span class="sidebar-user-label">SIGNED IN AS</span>
+            <div class="sidebar-user-row">
+                <div class="sidebar-user-avatar">
+                    <span class="sidebar-user-avatar-text">{initial}</span>
+                </div>
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name">{username}</div>
+                    <span class="sidebar-user-role">{role}</span>
+                </div>
             </div>
-            <div style="font-size:14px;font-weight:500;color:#FFFFFF;font-family:'DM Sans',sans-serif;">
-                {username}
+            <div class="session-badge">
+                <span class="session-dot"></span> Session active
             </div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.45);font-family:'DM Sans',sans-serif;">
-                {role}
-            </div>
-        </div>
-        <div class="session-badge">
-            <span class="session-dot"></span> Session active
-        </div>
-        <div style="padding:0 1rem 0.5rem;">
-            <div style="height:1px;background:rgba(255,255,255,0.10);"></div>
         </div>
         """, unsafe_allow_html=True)
+        
+        # Add theme toggle checkbox
+        st.checkbox(
+            "Dark Mode",
+            value=is_dark,
+            on_change=toggle_theme,
+            key="sidebar_theme_toggle"
+        )
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -782,5 +1277,166 @@ else:
     if st.session_state.user_role == "admin":
         pages.append(admin_page)
     pg = st.navigation(pages)
+
+# Inject section dividers and labels into navigation
+if st.session_state.logged_in:
+    # Add light mode fix script
+    st.markdown("""
+    <script>
+    // Check if we're in light mode and fix all text colors
+    function applyLightModeFix() {
+        const themeAttr = document.body.getAttribute('data-theme');
+        const isLight = themeAttr === 'light-theme';
+        
+        if (isLight) {
+            // Create a style element that overrides everything
+            const styleId = 'light-mode-text-fix';
+            let styleEl = document.getElementById(styleId);
+            
+            if (!styleEl) {
+                styleEl = document.createElement('style');
+                styleEl.id = styleId;
+                document.head.appendChild(styleEl);
+            }
+            
+            styleEl.innerHTML = `
+                /* Main Text Visibility */
+                body[data-theme="light-theme"] .main p, 
+                body[data-theme="light-theme"] .main span, 
+                body[data-theme="light-theme"] .main li,
+                body[data-theme="light-theme"] .main div:not([data-testid="stSidebar"]) {
+                    color: #1e293b !important;
+                }
+                
+                /* Headers */
+                body[data-theme="light-theme"] .main h1,
+                body[data-theme="light-theme"] .main h2,
+                body[data-theme="light-theme"] .main h3,
+                body[data-theme="light-theme"] .main h4 {
+                    color: #0f172a !important;
+                }
+                
+                /* Metrics & Stats */
+                body[data-theme="light-theme"] [data-testid="stMetricValue"],
+                body[data-theme="light-theme"] [data-testid="stMetricLabel"],
+                body[data-theme="light-theme"] .stat-value,
+                body[data-theme="light-theme"] .stat-label {
+                    color: #0f172a !important;
+                }
+                
+                /* DataFrames & Tables */
+                body[data-theme="light-theme"] [data-testid="stDataFrame"] *,
+                body[data-theme="light-theme"] [data-testid="stTable"] * {
+                    color: #334155 !important;
+                }
+                
+                /* Custom Cards and Headers */
+                body[data-theme="light-theme"] .page-header-title,
+                body[data-theme="light-theme"] .stat-card .stat-value {
+                    color: #0f172a !important;
+                }
+
+                /* Override persistent white/light text */
+                body[data-theme="light-theme"] .main *[style*="color: #ffffff"],
+                body[data-theme="light-theme"] .main *[style*="color:#ffffff"],
+                body[data-theme="light-theme"] .main *[style*="color: white"],
+                body[data-theme="light-theme"] .main *[style*="color: #F8FAFC"],
+                body[data-theme="light-theme"] .main *[style*="color:rgba(255, 255, 255, 0.02)"],
+                body[data-theme="light-theme"] .main *[style*="background: rgba(255, 255, 255, 0.06)"] {
+                    color: #1e293b !important;
+                }
+                
+                /* Kill Redundant Toggle Button (Force Hidden) */
+                [data-testid="stSidebar"] button:has(div:contains("Toggle")),
+                [data-testid="stSidebar"] button:has(div:contains("Mode")),
+                .stButton > button:has(div:contains("Toggle Dark/Light Mode")) {
+                    display: none !important;
+                    visibility: hidden !important;
+                }
+            `;
+            
+            // MutationObserver to catch and kill the redundant toggle button
+            const observer = new MutationObserver((mutations) => {
+                const buttons = document.querySelectorAll('button');
+                buttons.forEach(btn => {
+                    if (btn.innerText && (btn.innerText.includes('Toggle Dark/Light Mode') || btn.innerText.includes('🌓'))) {
+                        btn.style.display = 'none';
+                        btn.style.visibility = 'hidden';
+                        if (btn.parentElement) btn.parentElement.style.display = 'none';
+                    }
+                });
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+        }
+    }
+    
+    // Run immediately and multiple times
+    setTimeout(applyLightModeFix, 100);
+    setTimeout(applyLightModeFix, 500);
+    setTimeout(applyLightModeFix, 1500);
+    </script>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
+    <script>
+    setTimeout(function() {
+        // Find all sidebar nav links
+        const navContainer = document.querySelector('[data-testid="stSidebarNav"]');
+        if (!navContainer) return;
+        
+        const links = navContainer.querySelectorAll('a');
+        if (!links.length) return;
+        
+        // Find indices for section breaks
+        let reportIndex = -1;
+        let modelIndex = -1;
+        
+        links.forEach((link, index) => {
+            const text = link.textContent || link.innerText;
+            if (text.includes('Download Report')) reportIndex = index;
+            if (text.includes('Model Evaluation')) modelIndex = index;
+        });
+        
+        // Insert "TOOLS" section before Download Report
+        if (reportIndex > 0) {
+            const toolsLabel = document.createElement('span');
+            toolsLabel.className = 'sidebar-section-label';
+            toolsLabel.textContent = 'TOOLS';
+            
+            const divider = document.createElement('div');
+            divider.className = 'sidebar-divider';
+            
+            // Insert before the report link
+            const reportLink = links[reportIndex];
+            reportLink.parentNode.insertBefore(divider, reportLink);
+            reportLink.parentNode.insertBefore(toolsLabel, divider);
+        }
+        
+        // Insert "SYSTEM" section before Model Evaluation
+        if (modelIndex > 0) {
+            const systemLabel = document.createElement('span');
+            systemLabel.className = 'sidebar-section-label';
+            systemLabel.textContent = 'SYSTEM';
+            
+            const divider = document.createElement('div');
+            divider.className = 'sidebar-divider';
+            
+            // Find the model evaluation link (might have shifted)
+            const allLinks = navContainer.querySelectorAll('a');
+            let currentModelIndex = -1;
+            allLinks.forEach((link, index) => {
+                const text = link.textContent || link.innerText;
+                if (text.includes('Model Evaluation')) currentModelIndex = index;
+            });
+            
+            if (currentModelIndex > 0) {
+                const modelLink = allLinks[currentModelIndex];
+                modelLink.parentNode.insertBefore(divider, modelLink);
+                modelLink.parentNode.insertBefore(systemLabel, divider);
+            }
+        }
+    }, 500);
+    </script>
+    """, unsafe_allow_html=True)
 
 pg.run()

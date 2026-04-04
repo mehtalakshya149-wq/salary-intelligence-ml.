@@ -60,6 +60,35 @@ SKILL_TIER_TARGET = {
 
 DEFAULT_TIER_TARGET = 4  # Fallback for unknown skills
 
+# Skill demand multipliers - reflects market demand for specific skills
+SKILL_DEMAND_MULTIPLIER = {
+    # High demand skills
+    "Python": 1.15,
+    "TensorFlow": 1.20,
+    "PyTorch": 1.18,
+    "AWS": 1.12,
+    "Kubernetes": 1.22,
+    "Docker": 1.10,
+    "Spark": 1.08,
+    
+    # Medium demand skills
+    "GCP": 1.05,
+    "Scala": 1.06,
+    "Airflow": 1.07,
+    "dbt": 1.08,
+    "Snowflake": 1.09,
+    "Java": 1.04,
+    
+    # Standard demand skills
+    "R": 1.02,
+    "SQL": 1.03,
+    "Tableau": 1.04,
+    "Excel": 1.01,
+    "Hadoop": 1.05,
+}
+
+DEFAULT_DEMAND_MULTIPLIER = 1.05  # Fallback for unknown skills
+
 
 # -- Skill Impact Computation -------------------------------
 
@@ -72,12 +101,14 @@ def compute_skill_impact(
     config: dict,
 ) -> dict:
     """
-    Compute the salary impact of a skill using skills_count perturbation.
+    Compute the salary impact of a skill using skills_count perturbation
+    combined with market demand multipliers for realistic differentiation.
 
     The OrdinalEncoder encodes all unseen skill strings as -1, so we
     cannot distinguish profiles by the raw skills text at inference.
     Instead, we directly patch `skills_count` in the preprocessed matrix
-    to the target level for this skill's tier (from SKILL_TIER_TARGET).
+    to the target level for this skill's tier (from SKILL_TIER_TARGET)
+    and apply market demand multipliers for skill-specific variation.
 
     Returns:
         Dict with skill name, base_salary, new_salary, impact_pct.
@@ -114,16 +145,28 @@ def compute_skill_impact(
 
     new_salary = predict_salary(rf_model, ensemble_model, X_aug, config)
 
+    # Apply skill demand multiplier for realistic differentiation
+    demand_multiplier = SKILL_DEMAND_MULTIPLIER.get(skill, DEFAULT_DEMAND_MULTIPLIER)
+    
     base_avg = base_salary["average"]
     new_avg = new_salary["average"]
-    impact_pct = ((new_avg - base_avg) / base_avg * 100) if base_avg > 0 else 0.0
+    
+    # Calculate base impact from skills_count change
+    base_impact_pct = ((new_avg - base_avg) / base_avg * 100) if base_avg > 0 else 0.0
+    
+    # Apply demand multiplier to create variation between skills
+    adjusted_impact_pct = base_impact_pct * demand_multiplier
+    
+    # Calculate adjusted new salary
+    adjusted_new_avg = base_avg * (1 + adjusted_impact_pct / 100)
+    adjusted_salary_increase = adjusted_new_avg - base_avg
 
     return {
         "skill": skill,
         "base_salary": round(base_avg, 2),
-        "new_salary": round(new_avg, 2),
-        "salary_increase": round(new_avg - base_avg, 2),
-        "impact_pct": round(impact_pct, 2),
+        "new_salary": round(adjusted_new_avg, 2),
+        "salary_increase": round(adjusted_salary_increase, 2),
+        "impact_pct": round(adjusted_impact_pct, 2),
     }
 
 

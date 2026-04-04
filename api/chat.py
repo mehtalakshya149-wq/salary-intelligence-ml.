@@ -1,103 +1,50 @@
-import google.generativeai as genai
-from fastapi import APIRouter
-from pydantic import BaseModel
-from typing import List, Optional
 import os
+from groq import Groq
+from dotenv import load_dotenv
 
-router = APIRouter()
+load_dotenv()
 
-class ChatMessage(BaseModel):
-    role: str
-    content: str
+def generate_ai_chat_response(user_message: str, history: list, api_key: str = None) -> str:
+    key = api_key or os.getenv("XAI_API_KEY")
 
-class ChatRequest(BaseModel):
-    message: str
-    history: Optional[List[ChatMessage]] = []
-    api_key: Optional[str] = None
+    if not key:
+        return "⚠️ No API key found. Please enter your Groq API key in the sidebar or add XAI_API_KEY to your .env file."
 
-class ChatResponse(BaseModel):
-    response: str
+    try:
+        client = Groq(api_key=key)
 
-def generate_ai_chat_response(user_message: str, history: List[dict] = None, api_key: str = None) -> str:
-    """
-    Handles conversational logic.
-    Uses Google Gemini if API key is provided.
-    Includes auto-discovery and quota-aware fallback (handles 404 and 429 errors).
-    """
-    
-    if api_key:
-        try:
-            genai.configure(api_key=api_key)
-            
-            # --- Dynamic Model Discovery ---
-            available_models = []
-            try:
-                for m in genai.list_models():
-                    if 'generateContent' in m.supported_generation_methods:
-                        available_models.append(m.name)
-            except Exception:
-                available_models = ['models/gemini-1.5-flash', 'models/gemini-1.5-flash-latest', 'models/gemini-pro']
-            
-            if not available_models:
-                return "⚠️ **AI Error:** No compatible models found for your API key."
+        system_prompt = """You are an expert AI Career Advisor with deep knowledge of:
+- Salary bands across industries, roles, and experience levels
+- Career progression paths in tech, finance, healthcare, and more
+- In-demand skills and their ROI in the job market
+- Negotiation strategies for raises and promotions
+- Resume and interview coaching
 
-            # Priority order: Flash is preferred for Free Tier because it has much higher quota limits
-            priority = ['1.5-flash', '1.5-flash-latest', '1.5-pro', 'pro', '1.0-pro']
-            
-            # Reorder available models based on priority
-            sorted_models = []
-            for p in priority:
-                for m in available_models:
-                    if p in m.lower() and m not in sorted_models:
-                        sorted_models.append(m)
-            
-            # Add any remaining models
-            for m in available_models:
-                if m not in sorted_models:
-                    sorted_models.append(m)
+Be concise, data-driven, and actionable. When citing salaries, mention they are 
+approximate and vary by location/company size. Format responses clearly."""
 
-            last_error = ""
-            # --- Model Trial Loop ---
-            for m_name in sorted_models:
-                try:
-                    model = genai.GenerativeModel(m_name)
-                    
-                    system_instruction = (
-                        "You are an expert AI Career Advisor for the Salary Intelligence Platform. "
-                        "Always remain professional and helpful. Focus on Data Science and AI careers."
-                    )
+        messages = [{"role": "system", "content": system_prompt}]
 
-                    transformed_history = []
-                    if history:
-                        for msg in history[:-1]:
-                            role = "user" if msg['role'] == "user" else "model"
-                            transformed_history.append({"role": role, "parts": [msg['content']]})
+        for msg in history[:-1]:
+            if msg["role"] in ("user", "assistant"):
+                messages.append({"role": msg["role"], "content": msg["content"]})
 
-                    chat = model.start_chat(history=transformed_history)
-                    response = chat.send_message(f"{system_instruction}\n\nUser: {user_message}")
-                    return response.text
-                    
-                except Exception as e:
-                    last_error = str(e)
-                    # If 404 (Not Found) or 429 (Quota Exceeded), try the next model
-                    if "404" in last_error or "429" in last_error or "quota" in last_error.lower():
-                        continue
-                    else:
-                        return f"⚠️ **AI Error:** {last_error}"
-            
-            return f"⚠️ **AI Quota Error:** All available models are currently busy or out of free credits. Please wait 60 seconds and try again. ({last_error})"
-            
-        except Exception as e:
-            return f"⚠️ **AI Error:** {str(e)}"
+        messages.append({"role": "user", "content": user_message})
 
-    # --- Mode 2: Rule-Based Fallback ---
-    msg = user_message.lower()
-    if "salary" in msg or "pay" in msg:
-        return "In Basic Mode, I can tell you that Data Scientists generally earn $120k-$160k. Provide an API key for a deep-dive analysis!"
-    return "I am currently in **Basic Mode**. Add a Gemini API key in the sidebar for full AI intelligence!"
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=messages,
+            max_tokens=1000,
+            temperature=0.7,
+        )
 
-@router.post("/")
-def chat_endpoint(request: ChatRequest):
-    history_dicts = [{"role": msg.role, "content": msg.content} for msg in request.history] if request.history else []
-    response_text = generate_ai_chat_response(request.message, history_dicts, request.api_key)
-    return ChatResponse(response=response_text)
+        return response.choices[0].message.content
+
+    except Exception as e:
+        error_msg = str(e)
+        if "401" in error_msg or "authentication" in error_msg.lower():
+            return "❌ Invalid API key. Please check your Groq API key in the sidebar."
+        elif "429" in error_msg:
+            return "⏳ Rate limit hit. Please wait a moment and try again."
+        else:
+            return f"⚠️ Something went wrong: {error_msg}"
