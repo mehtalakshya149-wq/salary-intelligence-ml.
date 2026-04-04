@@ -26,18 +26,15 @@ ENV/
 .DS_Store
 Thumbs.db
 
-# Project-Specific Data & Models (Best practice to avoid committing large datasets/binaries)
-# ml/data/raw/*.csv
-# ml/data/processed/*.csv
-# ml/models/trained/*.joblib
-# ml/models/metadata/shap/*.png
-
+# Database files
 *.db
 salary_app.db
 
+# ML Models & Large Files
 *.joblib
 ml/models/trained/
+ml/models/metadata/shap/*.png
 
-*.joblib
-*.db
-ml/models/trained/
+# Data files (uncomment if needed)
+# ml/data/raw/*.csv
+# ml/data/processed/*.csv
